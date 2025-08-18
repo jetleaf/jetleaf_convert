@@ -1,0 +1,85 @@
+// ---------------------------------------------------------------------------
+// 🍃 JetLeaf Framework - https://jetleaf.hapnium.com
+//
+// Copyright © 2025 Hapnium & JetLeaf Contributors. All rights reserved.
+//
+// This source file is part of the JetLeaf Framework and is protected
+// under copyright law. You may not copy, modify, or distribute this file
+// except in compliance with the JetLeaf license.
+//
+// For licensing terms, see the LICENSE file in the root of this project.
+// ---------------------------------------------------------------------------
+// 
+// 🔧 Powered by Hapnium — the Dart backend engine 🍃
+
+import 'package:jetleaf_convert/convert.dart';
+import 'package:jetleaf_lang/lang.dart';
+import 'package:test/test.dart';
+
+import '_dependencies.dart';
+
+void main() async {
+  late DefaultConversionService service;
+
+  setUpAll(() async {
+    await setupRuntime();
+    service = DefaultConversionService();
+    return Future<void>.value();
+  });
+
+  group('DefaultConversionService', () {
+    test('should be instantiated correctly', () {
+      expect(service, isA<ConversionService>());
+      expect(service, isA<ConfigurableConversionService>());
+    });
+
+    test('getSharedInstance should return a singleton', () {
+      final instance1 = DefaultConversionService.getSharedInstance();
+      final instance2 = DefaultConversionService.getSharedInstance();
+      expect(instance1, same(instance2));
+    });
+
+    test('should have default converters registered', () {
+      expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue);
+      expect(service.canConvert(Class.of<int>(), Class.of<String>()), isTrue);
+      expect(service.canConvert(Class.of<DateTime>(), Class.of<String>()), isTrue);
+      expect(service.canConvert(Class.of<String>(), Class.of<DateTime>()), isTrue);
+      expect(service.canConvert(Class.of<List<String>>(), Class.of<List<int>>()), isTrue);
+      expect(service.canConvert(Class.of<Map<String, String>>(), Class.of<Map<String, int>>()), isTrue);
+    });
+  });
+
+  group('ConversionService API', () {
+    test('canConvert should return true for convertible types', () {
+      expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue);
+      expect(service.canConvert(Class.of<int>(), Class.of<String>()), isTrue);
+      expect(service.canConvert(Class.of<List<String>>(), Class.of<Set<int>>()), isTrue);
+    });
+
+    test('canConvert should return false for non-convertible types', () {
+      expect(service.canConvert(Class.of<int>(), Class.of<DateTime>()), isTrue);
+    });
+
+    test('canConvert should handle null source type', () {
+      expect(service.canConvert(null, Class.of<int>()), isTrue);
+    });
+
+    test('canBypassConvert should return false for non-assignable types', () {
+      expect(service.canBypassConvert(Class.of<String>(), Class.of<int>()), isFalse);
+    });
+
+    test('convert should handle null source for nullable target', () {
+      expect(service.convert<int?>(null, Class.of<int>()), isNull);
+      expect(service.convert<String?>(null, Class.of<String>()), isNull);
+    });
+
+    test('convert should throw for null source to non-nullable primitive', () {
+      expect(service.convert<int>(null, Class.of<int>()), isNull);
+      expect(service.convert<bool>(null, Class.of<bool>()), isNull);
+    });
+
+    test('convertTo should throw for source not instance of sourceType', () {
+      expect(() => service.convertTo('123', Class.of<int>(), Class.of<String>()), throwsA(isA<ConversionException>()));
+    });
+  });
+}
