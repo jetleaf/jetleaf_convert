@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the FormatterRegistry class from the format library, for the Dart programming language.">
+  <title>FormatterRegistry class - format library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">jetleaf_convert</a></li>
+    <li><a href="../format/">format.dart</a></li>
+    <li class="self-crumb">FormatterRegistry class</li>
+  </ol>
+  <div class="self-name">FormatterRegistry</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="format&#47;format-library-sidebar.html"
+    data-below-sidebar="format&#47;FormatterRegistry-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">FormatterRegistry</span> class 
+    <a href="https://dart.dev/language/class-modifiers#abstract" class="feature feature-abstract" title="This type can not be directly constructed.">abstract</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>A registry for managing formatters, printers, and parsers.</p>
+<p><a href="../format/FormatterRegistry-class.html">FormatterRegistry</a> stores and organizes different <a href="../format/FormatPrinter-class.html">FormatPrinter</a>, <a href="../format/FormatParser-class.html">FormatParser</a>,
+and <a href="../format/Formatter-class.html">Formatter</a> instances. It supports registration by field type or by annotation,
+enabling both explicit and declarative formatting configurations.</p>
+<h3 id="usage">Usage</h3>
+<p>You can register:</p>
+<ul>
+<li>A standalone printer</li>
+<li>A standalone parser</li>
+<li>A combined formatter</li>
+<li>A formatter for a specific field type</li>
+<li>A formatter based on an annotation</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">final registry = MyFormatterRegistry();
+
+registry.addPrinter(CurrencyPrinter());
+registry.addParser(CurrencyParser());
+registry.addFormatter(CurrencyFormatter());
+registry.addFormatterForFieldType(Class.forType(double), CurrencyFormatter());
+registry.addFormatterForFieldAnnotation(CurrencyAnnotationFormatterFactory());
+</code></pre>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark clazz-relationships">
+      <li><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></li>
+        <li><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></li>
+      <li>FormatterRegistry</li>
+    </ul>
+  </dd>
+
+        
+        
+
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="FormatterRegistry.new" class="callable">
+          <span class="name"><a href="../format/FormatterRegistry/FormatterRegistry.html">FormatterRegistry.new</a></span><span class="signature">()</span>
+        </dt>
+        <dd>
+          
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="addConverter" class="callable inherited">
+  <span class="name"><a href="../convert/ConverterRegistry/addConverter.html">addConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addConverter-param-converter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a></span> <span class="parameter-name">converter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Registers a simple <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> from one specific source type to one target type.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="addConverterFactory" class="callable inherited">
+  <span class="name"><a href="../convert/ConverterRegistry/addConverterFactory.html">addConverterFactory</a></span><span class="signature">(<wbr><span class="parameter" id="addConverterFactory-param-converterFactory"><span class="type-annotation"><a href="../convert/ConverterFactory-class.html">ConverterFactory</a></span> <span class="parameter-name">converterFactory</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Registers a <a href="../convert/ConverterFactory-class.html">ConverterFactory</a> that can produce <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> instances for a target type.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="addConverterWithClass" class="callable inherited">
+  <span class="name"><a href="../convert/ConverterRegistry/addConverterWithClass.html">addConverterWithClass</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="addConverterWithClass-param-sourceType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="addConverterWithClass-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">targetType</span>, </span><span class="parameter" id="addConverterWithClass-param-converter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">converter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Registers a <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> for a specific pair of source and target types.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="addFormatter" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addFormatter.html">addFormatter</a></span><span class="signature">(<wbr><span class="parameter" id="addFormatter-param-formatter"><span class="type-annotation"><a href="../format/Formatter-class.html">Formatter</a></span> <span class="parameter-name">formatter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a combined two-way <a href="../format/Formatter-class.html">Formatter</a> (printer + parser) for type <code>T</code>.
+  
+
+</dd>
+
+        <dt id="addFormatterForFieldAnnotation" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addFormatterForFieldAnnotation.html">addFormatterForFieldAnnotation</a></span><span class="signature">(<wbr><span class="parameter" id="addFormatterForFieldAnnotation-param-annotationFormatterFactory"><span class="type-annotation"><a href="../format/AnnotationFormatterFactory-class.html">AnnotationFormatterFactory</a><span class="signature">&lt;<wbr><span class="type-parameter">ReflectableAnnotation</span>&gt;</span></span> <span class="parameter-name">annotationFormatterFactory</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers an <a href="../format/AnnotationFormatterFactory-class.html">AnnotationFormatterFactory</a> so that fields annotated with <code>A</code>
+can automatically obtain printers and/or parsers.
+  
+
+</dd>
+
+        <dt id="addFormatterForFieldType" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addFormatterForFieldType.html">addFormatterForFieldType</a></span><span class="signature">(<wbr><span class="parameter" id="addFormatterForFieldType-param-fieldType"><span class="type-annotation">Class</span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="addFormatterForFieldType-param-formatter"><span class="type-annotation"><a href="../format/Formatter-class.html">Formatter</a></span> <span class="parameter-name">formatter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a <a href="../format/Formatter-class.html">Formatter</a> explicitly for a specific field <code>fieldType</code>.
+  
+
+</dd>
+
+        <dt id="addFormatterForFieldTypeWithParser" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addFormatterForFieldTypeWithParser.html">addFormatterForFieldTypeWithParser</a></span><span class="signature">(<wbr><span class="parameter" id="addFormatterForFieldTypeWithParser-param-fieldType"><span class="type-annotation">Class</span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="addFormatterForFieldTypeWithParser-param-printer"><span class="type-annotation"><a href="../format/FormatPrinter-class.html">FormatPrinter</a></span> <span class="parameter-name">printer</span>, </span><span class="parameter" id="addFormatterForFieldTypeWithParser-param-parser"><span class="type-annotation"><a href="../format/FormatParser-class.html">FormatParser</a></span> <span class="parameter-name">parser</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a split configuration for a specific field <code>fieldType</code>:
+a <a href="../format/FormatPrinter-class.html">FormatPrinter</a> and a <a href="../format/FormatParser-class.html">FormatParser</a>.
+  
+
+</dd>
+
+        <dt id="addGenericConverter" class="callable inherited">
+  <span class="name"><a href="../convert/ConverterRegistry/addGenericConverter.html">addGenericConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addGenericConverter-param-converter"><span class="type-annotation"><a href="../convert/GenericConverter-class.html">GenericConverter</a></span> <span class="parameter-name">converter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Registers a <a href="../convert/GenericConverter-class.html">GenericConverter</a> capable of converting between multiple types.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="addParser" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addParser.html">addParser</a></span><span class="signature">(<wbr><span class="parameter" id="addParser-param-parser"><span class="type-annotation"><a href="../format/FormatParser-class.html">FormatParser</a></span> <span class="parameter-name">parser</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a standalone <a href="../format/FormatParser-class.html">FormatParser</a> in the registry.
+  
+
+</dd>
+
+        <dt id="addPrinter" class="callable">
+  <span class="name"><a href="../format/FormatterRegistry/addPrinter.html">addPrinter</a></span><span class="signature">(<wbr><span class="parameter" id="addPrinter-param-printer"><span class="type-annotation"><a href="../format/FormatPrinter-class.html">FormatPrinter</a></span> <span class="parameter-name">printer</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a standalone <a href="../format/FormatPrinter-class.html">FormatPrinter</a> in the registry.
+  
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="removeConvertible" class="callable inherited">
+  <span class="name"><a href="../convert/ConverterRegistry/removeConvertible.html">removeConvertible</a></span><span class="signature">(<wbr><span class="parameter" id="removeConvertible-param-sourceType"><span class="type-annotation">Class</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="removeConvertible-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Removes a registered converter between the specified source and target types.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">jetleaf_convert</a></li>
+    <li><a href="../format/">format</a></li>
+    <li class="self-crumb">FormatterRegistry class</li>
+</ol>
+
+    <h5>format library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetleaf_convert
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

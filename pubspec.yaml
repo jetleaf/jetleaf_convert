@@ -2,6 +2,8 @@ name: jetleaf_convert
 description: A library that provides high-level of conversion for the Jetleaf application. It powers the conversion of types to the target types based on request.
 version: 1.0.0
 
+publish_to: none
+
 homepage: https://jetleaf.hapnium.com
 repository: https://github.com/jetleaf/jetleaf_convert
 
