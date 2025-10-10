@@ -80,9 +80,7 @@ print(list); // [bar, baz, foo]
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Comparator&lt;T&gt; thenComparing(Comparator&lt;T&gt; other) {
-  return _ChainedComparator(this, other);
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Comparator&lt;T&gt; thenComparing(Comparator&lt;T&gt; other) =&gt; _ChainedComparator(this, other);</code></pre>
 </section>
 
 

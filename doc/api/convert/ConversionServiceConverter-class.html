@@ -54,9 +54,9 @@
 
     
 <section class="desc markdown">
-  <p>A <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.</p>
+  <p>A <a href="../convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.</p>
 <p>This wrapper allows a <a href="../convert/ConversionService-class.html">ConversionService</a> to be plugged into APIs
-that require a <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a>, using a fixed target type.</p>
+that require a <a href="../convert/Converter-class.html">Converter</a>, using a fixed target type.</p>
 <hr>
 <h3 id="-example">🔧 Example:</h3>
 <pre class="language-dart"><code class="language-dart">final service = DefaultConversionService();
@@ -71,16 +71,14 @@ print(result); // 123
     <section>
       <dl class="dl-horizontal">
         
-  <dt>Inheritance</dt>
-  <dd>
-    <ul class="gt-separated dark clazz-relationships">
-      <li><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></li>
-        <li><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></li>
-      <li>ConversionServiceConverter</li>
-    </ul>
-  </dd>
 
         
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></li>
+    </ul>
+  </dd>
         
 
 
@@ -105,7 +103,7 @@ print(result); // 123
           <span class="name"><a href="../convert/ConversionServiceConverter/ConversionServiceConverter.html">ConversionServiceConverter.new</a></span><span class="signature">(<span class="parameter" id="-param-_conversionService"><span class="type-annotation"><a href="../convert/ConversionService-class.html">ConversionService</a></span> <span class="parameter-name">_conversionService</span>, </span><span class="parameter" id="-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">targetType</span></span>)</span>
         </dt>
         <dd>
-          A <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.
+          A <a href="../convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.
         </dd>
     </dl>
   </section>
@@ -116,8 +114,8 @@ print(result); // 123
     <h2>Properties</h2>
     <dl class="properties">
         <dt id="hashCode" class="property inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/hashCode.html">hashCode</a></span>
-  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/int-class.html">int</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
   
 
 </dt>
@@ -128,8 +126,8 @@ print(result); // 123
 </dd>
 
         <dt id="runtimeType" class="property inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/runtimeType.html">runtimeType</a></span>
-  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Type-class.html">Type</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
   
 
 </dt>
@@ -160,32 +158,6 @@ print(result); // 123
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="bind" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter/bind.html">bind</a></span><span class="signature">(<wbr><span class="parameter" id="bind-param-stream"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">stream</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Transforms the provided <code>stream</code>.
-  <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
-        <dt id="cast" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter/cast.html">cast</a></span><span class="signature">&lt;<wbr><span class="type-parameter">RS</span>, <span class="type-parameter">RT</span>&gt;</span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">RS</span>, <span class="type-parameter">RT</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Provides a <code>Converter&lt;RS, RT&gt;</code> view of this stream transformer.
-  <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
         <dt id="convert" class="callable">
   <span class="name"><a href="../convert/ConversionServiceConverter/convert.html">convert</a></span><span class="signature">(<wbr><span class="parameter" id="convert-param-source"><span class="type-annotation">S</span> <span class="parameter-name">source</span></span>)
     <span class="returntype parameter">&#8594; T</span>
@@ -194,26 +166,28 @@ print(result); // 123
 
 </dt>
 <dd>
-  Converts <code>input</code> and returns the result of the conversion.
+  A generic interface for converting an input of type <code>S</code> into an output of
+type <code>T</code>.
   <div class="features"><span class="feature">override</span></div>
 
 </dd>
 
-        <dt id="fuse" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter/fuse.html">fuse</a></span><span class="signature">&lt;<wbr><span class="type-parameter">TT</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="fuse-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>, <span class="type-parameter">TT</span>&gt;</span></span> <span class="parameter-name">other</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">TT</span>&gt;</span></span>
+        <dt id="getPackageName" class="callable inherited">
+  <span class="name"><a href="../convert/ConversionServiceConverter/getPackageName.html">getPackageName</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Fuses <code>this</code> with <code>other</code>.
+  Represents an abstraction for identifying the package that an object,
+resource, or service belongs to.
   <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
         <dt id="noSuchMethod" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
   </span>
   
@@ -225,22 +199,9 @@ print(result); // 123
 
 </dd>
 
-        <dt id="startChunkedConversion" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter/startChunkedConversion.html">startChunkedConversion</a></span><span class="signature">(<wbr><span class="parameter" id="startChunkedConversion-param-sink"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Sink-class.html">Sink</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">sink</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Sink-class.html">Sink</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Starts a chunked conversion.
-  <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
         <dt id="toString" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/String-class.html">String</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
   </span>
   
 
@@ -260,8 +221,8 @@ print(result); // 123
     <h2>Operators</h2>
     <dl class="callables">
         <dt id="operator ==" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
   </span>
   
 

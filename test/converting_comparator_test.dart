@@ -48,7 +48,7 @@ void main() async {
 
     test('should use ConversionServiceConverter', () {
       final customService = DefaultConversionService();
-      customService.addConverterWithClass(Class.of<String>(), Class.of<int>(), CustomConverter()); // Registers x2 converter
+      customService.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter()); // Registers x2 converter
 
       final comparator = ConvertingComparator.withConverter(
         Comparator.naturalOrder(),

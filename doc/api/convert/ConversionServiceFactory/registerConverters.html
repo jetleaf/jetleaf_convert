@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">registerConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="registerConverters-param-converters"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Set-class.html">Set</a>?</span> <span class="parameter-name">converters</span>, </span></li>
+<span class="name ">registerConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="registerConverters-param-converters"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Set-class.html">Set</a>?</span> <span class="parameter-name">converters</span>, </span></li>
 <li><span class="parameter" id="registerConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
@@ -66,7 +66,7 @@
 <section class="desc markdown">
   <p>Utility class for registering a set of converters with a <a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a>.</p>
 <p>This is used to bulk-register multiple converter objects, whether they
-implement <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a>, <a href="../../convert/ConverterFactory-class.html">ConverterFactory</a>, or <a href="../../convert/GenericConverter-class.html">GenericConverter</a>.</p>
+implement <a href="../../convert/Converter-class.html">Converter</a>, <a href="../../convert/ConverterFactory-class.html">ConverterFactory</a>, or <a href="../../convert/PairedConverter-class.html">PairedConverter</a>.</p>
 <p>All converters are matched by type and registered accordingly. If any object
 in the provided set does not implement one of the recognized interfaces,
 an <code>IllegalArgumentException</code> is thrown.</p>
@@ -82,8 +82,8 @@ ConversionServiceFactory.registerConverters({
 </code></pre>
 <p>Registers each converter in <code>converters</code> with the provided <code>registry</code>.</p>
 <ul>
-<li>If a converter is a <a href="../../convert/GenericConverter-class.html">GenericConverter</a>, it will be registered using <a href="../../convert/ConverterRegistry/addGenericConverter.html">ConverterRegistry.addGenericConverter</a>.</li>
-<li>If it is a <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a>, it will be registered using <a href="../../convert/ConverterRegistry/addConverter.html">ConverterRegistry.addConverter</a>.</li>
+<li>If a converter is a <a href="../../convert/PairedConverter-class.html">PairedConverter</a>, it will be registered using <a href="../../convert/ConverterRegistry/addPairedConverter.html">ConverterRegistry.addPairedConverter</a>.</li>
+<li>If it is a <a href="../../convert/Converter-class.html">Converter</a>, it will be registered using <a href="../../convert/ConverterRegistry/addConverter.html">ConverterRegistry.addConverter</a>.</li>
 <li>If it is a <a href="../../convert/ConverterFactory-class.html">ConverterFactory</a>, it will be registered using <a href="../../convert/ConverterRegistry/addConverterFactory.html">ConverterRegistry.addConverterFactory</a>.</li>
 </ul>
 <p>Throws <code>IllegalArgumentException</code> if any object in <code>converters</code> does not implement one of these types.</p>
@@ -96,15 +96,16 @@ ConversionServiceFactory.registerConverters({
   <pre class="language-dart"><code class="language-dart">static void registerConverters(Set&lt;dynamic&gt;? converters, ConverterRegistry registry) {
   if (converters != null) {
     for (Object candidate in converters) {
-      if (candidate is GenericConverter) {
-        registry.addGenericConverter(candidate);
+      if (candidate is PairedConverter) {
+        registry.addPairedConverter(candidate);
       } else if (candidate is Converter&lt;dynamic, dynamic&gt;) {
         registry.addConverter(candidate);
       } else if (candidate is ConverterFactory&lt;dynamic, dynamic&gt;) {
         registry.addConverterFactory(candidate);
       } else {
-        throw IllegalArgumentException(&quot;Each converter object must implement one of the &quot;
-            &quot;Converter, ConverterFactory, or GenericConverter interfaces&quot;,
+        throw IllegalArgumentException(
+          &quot;Each converter object must implement one of the &quot;
+          &quot;Converter, ConverterFactory, or PairedConverter interfaces&quot;,
         );
       }
     }

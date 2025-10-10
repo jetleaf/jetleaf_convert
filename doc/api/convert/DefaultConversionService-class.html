@@ -54,7 +54,7 @@
 
     
 <section class="desc markdown">
-  <p>A specialization of <a href="../convert/GenericConversionService-class.html">GenericConversionService</a> configured by default
+  <p>A specialization of <a href="../convert/SimpleConversionService-class.html">SimpleConversionService</a> configured by default
 with converters appropriate for most environments.</p>
 <p>Designed for direct instantiation but also exposes the static
 <a href="../convert/DefaultConversionService/addDefaultConverters.html">addDefaultConverters</a> utility method for ad-hoc use against any
@@ -73,8 +73,8 @@ print(result); // 123
   <dt>Inheritance</dt>
   <dd>
     <ul class="gt-separated dark clazz-relationships">
-      <li><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></li>
-        <li><a href="../convert/GenericConversionService-class.html">GenericConversionService</a></li>
+      <li><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></li>
+        <li><a href="../convert/SimpleConversionService-class.html">SimpleConversionService</a></li>
       <li>DefaultConversionService</li>
     </ul>
   </dd>
@@ -109,8 +109,8 @@ print(result); // 123
     <h2>Properties</h2>
     <dl class="properties">
         <dt id="hashCode" class="property inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/hashCode.html">hashCode</a></span>
-  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/int-class.html">int</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
   
 
 </dt>
@@ -121,8 +121,8 @@ print(result); // 123
 </dd>
 
         <dt id="runtimeType" class="property inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/runtimeType.html">runtimeType</a></span>
-  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Type-class.html">Type</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
   
 
 </dt>
@@ -142,60 +142,73 @@ print(result); // 123
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="addConverter" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/addConverter.html">addConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addConverter-param-converter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a></span> <span class="parameter-name">converter</span></span>)
+  <span class="name"><a href="../convert/SimpleConversionService/addConverter.html">addConverter</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="addConverter-param-converter"><span class="type-annotation"><a href="../convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">converter</span>, {</span><span class="parameter" id="addConverter-param-sourceType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span>?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="addConverter-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span>?</span> <span class="parameter-name">targetType</span></span>})
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Registers a simple <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> from one specific source type to one target type.
+  Registers a simple <a href="../convert/Converter-class.html">Converter</a> from one specific source type to one target type.
   <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
         <dt id="addConverterFactory" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/addConverterFactory.html">addConverterFactory</a></span><span class="signature">(<wbr><span class="parameter" id="addConverterFactory-param-factory"><span class="type-annotation"><a href="../convert/ConverterFactory-class.html">ConverterFactory</a></span> <span class="parameter-name">factory</span></span>)
+  <span class="name"><a href="../convert/SimpleConversionService/addConverterFactory.html">addConverterFactory</a></span><span class="signature">(<wbr><span class="parameter" id="addConverterFactory-param-factory"><span class="type-annotation"><a href="../convert/ConverterFactory-class.html">ConverterFactory</a></span> <span class="parameter-name">factory</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Registers a <a href="../convert/ConverterFactory-class.html">ConverterFactory</a> that can produce <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> instances for a target type.
+  Registers a <a href="../convert/ConverterFactory-class.html">ConverterFactory</a> that can produce <a href="../convert/Converter-class.html">Converter</a> instances for a target type.
   <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
-        <dt id="addConverterWithClass" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/addConverterWithClass.html">addConverterWithClass</a></span><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="addConverterWithClass-param-sourceType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span></span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="addConverterWithClass-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">targetType</span>, </span><span class="parameter" id="addConverterWithClass-param-converter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">converter</span></span>)
+        <dt id="addNullSourceConverter" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/addNullSourceConverter.html">addNullSourceConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addNullSourceConverter-param-converter"><span class="type-annotation"><a href="../convert/GenericNullConverter-class.html">GenericNullConverter</a></span> <span class="parameter-name">converter</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Registers a <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> for a specific pair of source and target types.
+  Adds a new <a href="../convert/GenericNullConverter-class.html">GenericNullConverter</a> to the list of registered converters.
   <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
-        <dt id="addGenericConverter" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/addGenericConverter.html">addGenericConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addGenericConverter-param-converter"><span class="type-annotation"><a href="../convert/GenericConverter-class.html">GenericConverter</a></span> <span class="parameter-name">converter</span></span>)
+        <dt id="addPairedConverter" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/addPairedConverter.html">addPairedConverter</a></span><span class="signature">(<wbr><span class="parameter" id="addPairedConverter-param-converter"><span class="type-annotation"><a href="../convert/PairedConverter-class.html">PairedConverter</a></span> <span class="parameter-name">converter</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
 </dt>
 <dd class="inherited">
-  Registers a <a href="../convert/GenericConverter-class.html">GenericConverter</a> capable of converting between multiple types.
+  Registers a <a href="../convert/PairedConverter-class.html">PairedConverter</a> capable of converting between multiple types.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="addUriValidator" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/addUriValidator.html">addUriValidator</a></span><span class="signature">(<wbr><span class="parameter" id="addUriValidator-param-validator"><span class="type-annotation">UriValidator</span> <span class="parameter-name">validator</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Adds a new <code>UriValidator</code> to the list of registered validators.
   <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
         <dt id="canBypassConvert" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/canBypassConvert.html">canBypassConvert</a></span><span class="signature">(<wbr><span class="parameter" id="canBypassConvert-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="canBypassConvert-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="../convert/SimpleConversionService/canBypassConvert.html">canBypassConvert</a></span><span class="signature">(<wbr><span class="parameter" id="canBypassConvert-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="canBypassConvert-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
@@ -209,8 +222,8 @@ converted to the target type by returning the source object unchanged.
 </dd>
 
         <dt id="canConvert" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/canConvert.html">canConvert</a></span><span class="signature">(<wbr><span class="parameter" id="canConvert-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="canConvert-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="../convert/SimpleConversionService/canConvert.html">canConvert</a></span><span class="signature">(<wbr><span class="parameter" id="canConvert-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="canConvert-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
@@ -222,7 +235,7 @@ converted to the target type by returning the source object unchanged.
 </dd>
 
         <dt id="convert" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/convert.html">convert</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="convert-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="convert-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">targetType</span></span>)
+  <span class="name"><a href="../convert/SimpleConversionService/convert.html">convert</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="convert-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="convert-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">targetType</span>, [</span><span class="parameter" id="convert-param-qualifiedName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">qualifiedName</span></span>])
     <span class="returntype parameter">&#8594; T?</span>
   </span>
   
@@ -235,8 +248,8 @@ converted to the target type by returning the source object unchanged.
 </dd>
 
         <dt id="convertTo" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/convertTo.html">convertTo</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="convertTo-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="convertTo-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="convertTo-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a>?</span>
+  <span class="name"><a href="../convert/SimpleConversionService/convertTo.html">convertTo</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="convertTo-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="convertTo-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span>, [</span><span class="parameter" id="convertTo-param-sourceType"><span class="type-annotation">Class?</span> <span class="parameter-name">sourceType</span></span>])
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span>
   </span>
   
 
@@ -248,22 +261,9 @@ using full type metadata via <code>Class</code>.
 
 </dd>
 
-        <dt id="convertWithClass" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/convertWithClass.html">convertWithClass</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="convertWithClass-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="convertWithClass-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a>?</span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Converts the <code>source</code> to <code>targetType</code> using <code>Class</code> metadata.
-  <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
         <dt id="getUriValidators" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/getUriValidators.html">getUriValidators</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter">UriValidator</span>&gt;</span></span>
+  <span class="name"><a href="../convert/SimpleConversionService/getUriValidators.html">getUriValidators</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter">UriValidator</span>&gt;</span></span>
   </span>
   
 
@@ -275,7 +275,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="noSuchMethod" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
   </span>
   
@@ -287,8 +287,8 @@ using full type metadata via <code>Class</code>.
 
 </dd>
 
-        <dt id="removeConvertible" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/removeConvertible.html">removeConvertible</a></span><span class="signature">(<wbr><span class="parameter" id="removeConvertible-param-sourceType"><span class="type-annotation">Class</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="removeConvertible-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
+        <dt id="remove" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/remove.html">remove</a></span><span class="signature">(<wbr><span class="parameter" id="remove-param-sourceType"><span class="type-annotation">Class</span> <span class="parameter-name">sourceType</span>, </span><span class="parameter" id="remove-param-targetType"><span class="type-annotation">Class</span> <span class="parameter-name">targetType</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -300,9 +300,35 @@ using full type metadata via <code>Class</code>.
 
 </dd>
 
+        <dt id="removeNullSourceConverter" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/removeNullSourceConverter.html">removeNullSourceConverter</a></span><span class="signature">(<wbr><span class="parameter" id="removeNullSourceConverter-param-converter"><span class="type-annotation"><a href="../convert/GenericNullConverter-class.html">GenericNullConverter</a></span> <span class="parameter-name">converter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Removes a registered <a href="../convert/GenericNullConverter-class.html">GenericNullConverter</a>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="removeUriValidator" class="callable inherited">
+  <span class="name"><a href="../convert/SimpleConversionService/removeUriValidator.html">removeUriValidator</a></span><span class="signature">(<wbr><span class="parameter" id="removeUriValidator-param-validator"><span class="type-annotation">UriValidator</span> <span class="parameter-name">validator</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Removes a registered <code>UriValidator</code>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
         <dt id="toString" class="callable inherited">
-  <span class="name"><a href="../convert/GenericConversionService/toString.html">toString</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/String-class.html">String</a></span>
+  <span class="name"><a href="../convert/SimpleConversionService/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
   </span>
   
 
@@ -322,8 +348,8 @@ using full type metadata via <code>Class</code>.
     <h2>Operators</h2>
     <dl class="callables">
         <dt id="operator ==" class="callable inherited">
-  <span class="name"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.0/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
@@ -337,12 +363,29 @@ using full type metadata via <code>Class</code>.
     </dl>
   </section>
     
+  <section class="summary offset-anchor" id="static-properties">
+    <h2>Static Properties</h2>
+    <dl class="properties">
+        <dt id="defaultZone" class="property">
+  <span class="name"><a href="../convert/DefaultConversionService/defaultZone.html">defaultZone</a></span>
+  <span class="signature">&#8596; ZoneId</span>
+  
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+    </dl>
+  </section>
     
   <section class="summary offset-anchor" id="static-methods">
     <h2>Static Methods</h2>
     <dl class="callables">
         <dt id="addCollectionConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addCollectionConverters.html">addCollectionConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addCollectionConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addCollectionConverters.html">addCollectionConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addCollectionConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -355,7 +398,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="addDefaultConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addDefaultConverters.html">addDefaultConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addDefaultConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addDefaultConverters.html">addDefaultConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addDefaultConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -368,7 +411,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="addJetLeafConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addJetLeafConverters.html">addJetLeafConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addJetLeafConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addJetLeafConverters.html">addJetLeafConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addJetLeafConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -381,7 +424,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="addMapConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addMapConverters.html">addMapConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addMapConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addMapConverters.html">addMapConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addMapConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -393,21 +436,8 @@ using full type metadata via <code>Class</code>.
 
 </dd>
 
-        <dt id="addOptionalConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addOptionalConverters.html">addOptionalConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addOptionalConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
-    <span class="returntype parameter">&#8594; void</span>
-  </span>
-  
-
-</dt>
-<dd>
-  Add optional-related converters.
-  
-
-</dd>
-
         <dt id="addOtherDartConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addOtherDartConverters.html">addOtherDartConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addOtherDartConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addOtherDartConverters.html">addOtherDartConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addOtherDartConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -420,7 +450,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="addScalarConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addScalarConverters.html">addScalarConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addScalarConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addScalarConverters.html">addScalarConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addScalarConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -433,7 +463,7 @@ using full type metadata via <code>Class</code>.
 </dd>
 
         <dt id="addTimeConverters" class="callable">
-  <span class="name"><a href="../convert/DefaultConversionService/addTimeConverters.html">addTimeConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addTimeConverters-param-converterRegistry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span>)
+  <span class="name"><a href="../convert/DefaultConversionService/addTimeConverters.html">addTimeConverters</a></span><span class="signature">(<wbr><span class="parameter" id="addTimeConverters-param-registry"><span class="type-annotation"><a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   

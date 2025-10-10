@@ -27,7 +27,7 @@
     <li><a href="../../index.html">jetleaf_convert</a></li>
     <li><a href="../../convert/">convert.dart</a></li>
     <li><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></li>
-    <li class="self-crumb">addConverter abstract method</li>
+    <li class="self-crumb">addConverter&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt; abstract method</li>
   </ol>
   <div class="self-name">addConverter</div>
   <form class="search navbar-right" role="search">
@@ -49,24 +49,28 @@
     data-above-sidebar="convert&#47;ConverterRegistry-class-sidebar.html"
     data-below-sidebar="">
     <div>
-<h1><span class="kind-method">addConverter</span> abstract method 
+<h1><span class="kind-method">addConverter&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span> abstract method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addConverter</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addConverter-param-converter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a></span> <span class="parameter-name">converter</span></span></li>
-</ol>)
+<span class="name ">addConverter</span>&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;(<wbr><ol class="parameter-list"> <li><span class="parameter" id="addConverter-param-converter"><span class="type-annotation"><a href="../../convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">converter</span>, {</span></li>
+<li><span class="parameter" id="addConverter-param-sourceType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">S</span>&gt;</span>?</span> <span class="parameter-name">sourceType</span>, </span></li>
+<li><span class="parameter" id="addConverter-param-targetType"><span class="type-annotation">Class<span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span>?</span> <span class="parameter-name">targetType</span>, </span></li>
+</ol>})
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Registers a simple <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> from one specific source type to one target type.</p>
+  <p>Registers a simple <a href="../../convert/Converter-class.html">Converter</a> from one specific source type to one target type.</p>
 <hr>
 <h3 id="-example">🔧 Example</h3>
 <pre class="language-dart"><code class="language-dart">registry.addConverter(StringToIntConverter());
+
+registry.addConverter(StringToIntConverter(), sourceType: Class&lt;String&gt;(), targetType: Class&lt;int&gt;());
 </code></pre>
 </section>
 
@@ -74,7 +78,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void addConverter(Converter&lt;dynamic, dynamic&gt; converter);</code></pre>
+  <pre class="language-dart"><code class="language-dart">void addConverter&lt;S, T&gt;(Converter&lt;S, T&gt; converter, {Class&lt;S&gt;? sourceType, Class&lt;T&gt;? targetType});</code></pre>
 </section>
 
 
@@ -90,7 +94,7 @@
     <li><a href="../../index.html">jetleaf_convert</a></li>
     <li><a href="../../convert/">convert</a></li>
     <li><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></li>
-    <li class="self-crumb">addConverter abstract method</li>
+    <li class="self-crumb">addConverter&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt; abstract method</li>
 </ol>
 
     <h5>ConverterRegistry class</h5>

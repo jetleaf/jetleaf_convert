@@ -72,14 +72,6 @@
   A contract for a converter that only matches under certain conditions.
 </dd>
 
-          <dt id="ConditionalGenericConverter">
-  <span class="name "><a href="../convert/ConditionalGenericConverter-class.html">ConditionalGenericConverter</a></span> 
-
-</dt>
-<dd>
-  A bridge interface combining <a href="../convert/GenericConverter-class.html">GenericConverter</a> and <a href="../convert/ConditionalConverter-class.html">ConditionalConverter</a>.
-</dd>
-
           <dt id="ConfigurableConversionService">
   <span class="name "><a href="../convert/ConfigurableConversionService-class.html">ConfigurableConversionService</a></span> 
 
@@ -101,7 +93,7 @@
 
 </dt>
 <dd>
-  A <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.
+  A <a href="../convert/Converter-class.html">Converter</a> that delegates to a <a href="../convert/ConversionService-class.html">ConversionService</a> for converting values.
 </dd>
 
           <dt id="ConversionServiceFactory">
@@ -120,12 +112,21 @@
   Utility class containing common operations used by conversion infrastructure.
 </dd>
 
+          <dt id="Converter">
+  <span class="name "><a href="../convert/Converter-class.html">Converter</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  A generic interface for converting an input of type <code>S</code> into an output of
+type <code>T</code>.
+</dd>
+
           <dt id="ConverterFactory">
   <span class="name "><a href="../convert/ConverterFactory-class.html">ConverterFactory</a><span class="signature">&lt;<wbr><span class="type-parameter">S</span>, <span class="type-parameter">R</span>&gt;</span></span> 
 
 </dt>
 <dd>
-  A factory for creating <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a> instances that convert from a source type <code>S</code>
+  A factory for creating <a href="../convert/Converter-class.html">Converter</a> instances that convert from a source type <code>S</code>
 to a target type <code>T</code>, where <code>T</code> is a subtype of <code>R</code>.
 </dd>
 
@@ -152,7 +153,7 @@ conversions at runtime.
 </dt>
 <dd>
   A comparator that compares source values of type <code>S</code> by first converting them
-to another type <code>T</code> using a <a href="https://api.dart.dev/stable/3.9.0/dart-convert/Converter-class.html">Converter</a>, then applying a <code>Comparator</code> on <code>T</code>.
+to another type <code>T</code> using a <a href="../convert/Converter-class.html">Converter</a>, then applying a <code>Comparator</code> on <code>T</code>.
 </dd>
 
           <dt id="DefaultConversionService">
@@ -160,24 +161,48 @@ to another type <code>T</code> using a <a href="https://api.dart.dev/stable/3.9.
 
 </dt>
 <dd>
-  A specialization of <a href="../convert/GenericConversionService-class.html">GenericConversionService</a> configured by default
+  A specialization of <a href="../convert/SimpleConversionService-class.html">SimpleConversionService</a> configured by default
 with converters appropriate for most environments.
 </dd>
 
-          <dt id="GenericConversionService">
-  <span class="name "><a href="../convert/GenericConversionService-class.html">GenericConversionService</a></span> 
+          <dt id="GenericNullConverter">
+  <span class="name "><a href="../convert/GenericNullConverter-class.html">GenericNullConverter</a></span> 
 
 </dt>
 <dd>
-  A comprehensive type conversion service that handles conversion between different types.
+  A contract for a converter that only matches under certain conditions.
 </dd>
 
-          <dt id="GenericConverter">
-  <span class="name "><a href="../convert/GenericConverter-class.html">GenericConverter</a></span> 
+          <dt id="ListableConverterRegistry">
+  <span class="name "><a href="../convert/ListableConverterRegistry-class.html">ListableConverterRegistry</a></span> 
+
+</dt>
+<dd>
+  A <a href="../convert/ConverterRegistry-class.html">ConverterRegistry</a> that also provides access to registered <code>UriValidator</code> instances.
+</dd>
+
+          <dt id="PairedConditionalConverter">
+  <span class="name "><a href="../convert/PairedConditionalConverter-class.html">PairedConditionalConverter</a></span> 
+
+</dt>
+<dd>
+  A bridge interface combining <a href="../convert/PairedConverter-class.html">PairedConverter</a> and <a href="../convert/ConditionalConverter-class.html">ConditionalConverter</a>.
+</dd>
+
+          <dt id="PairedConverter">
+  <span class="name "><a href="../convert/PairedConverter-class.html">PairedConverter</a></span> 
 
 </dt>
 <dd>
   A general-purpose converter that can convert between multiple source–target type pairs.
+</dd>
+
+          <dt id="SimpleConversionService">
+  <span class="name "><a href="../convert/SimpleConversionService-class.html">SimpleConversionService</a></span> 
+
+</dt>
+<dd>
+  A comprehensive type conversion service that handles conversion between different types.
 </dd>
 
       </dl>
@@ -236,8 +261,8 @@ with converters appropriate for most environments.
     <h5><span class="package-name">jetleaf_convert</span> <span class="package-kind">package</span></h5>
     <ol>
       <li class="section-title">Libraries</li>
+      <li><a href="../adapter/">adapter</a></li>
       <li><a href="../convert/">convert</a></li>
-      <li><a href="../format/">format</a></li>
 </ol>
 
   </div>

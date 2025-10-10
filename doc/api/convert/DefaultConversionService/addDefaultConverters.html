@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addDefaultConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addDefaultConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addDefaultConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addDefaultConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,18 +70,18 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addDefaultConverters(ConverterRegistry converterRegistry) {
-  addScalarConverters(converterRegistry);
-  addCollectionConverters(converterRegistry);
-  addTimeConverters(converterRegistry);
-  addMapConverters(converterRegistry);
-  addOptionalConverters(converterRegistry);
-  addJetLeafConverters(converterRegistry);
-  addOtherDartConverters(converterRegistry);
+  <pre class="language-dart"><code class="language-dart">static void addDefaultConverters(ConverterRegistry registry) {
+  addScalarConverters(registry);
+  addTimeConverters(registry);
+  addMapConverters(registry);
+  addJetLeafConverters(registry);
+  addOtherDartConverters(registry);
 
   &#47;&#47; Core object converters
-  converterRegistry.addGenericConverter(ObjectToObjectConverter());
-  converterRegistry.addGenericConverter(FallbackObjectToStringConverter());
+  registry.addPairedConverter(ObjectToObjectConverter());
+  registry.addPairedConverter(FallbackObjectToStringConverter());
+
+  addCollectionConverters(registry);
 }</code></pre>
 </section>
 

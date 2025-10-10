@@ -13,6 +13,7 @@
 // 🔧 Powered by Hapnium — the Dart backend engine 🍃
 
 import 'package:jetleaf_convert/convert.dart';
+import 'package:jetleaf_convert/src/helpers/_commons.dart';
 import 'package:jetleaf_lang/lang.dart';
 import 'package:test/test.dart';
 
@@ -31,25 +32,25 @@ void main() async {
   group('ConversionUtils', () {
     test('invokeConverter should wrap other exceptions in ConversionFailedException', () {
       final converter = _ThrowingConverter();
-      expect(() => ConversionUtils.invokeConverter(converter, 'data', Class.of<String>(), Class.of<int>()),
+      expect(() => ConversionUtils.invoke(converter, 'data', Class.of<String>(), Class.of<int>()),
           throwsA(isA<ConversionFailedException>().having((e) => e.point, 'point', isA<StateError>())));
     });
 
     test('canConvertElements should return true for convertible elements', () {
-      expect(ConversionUtils.canConvertElements(Class.of<String>(), Class.of<int>(), service), isTrue);
-      expect(ConversionUtils.canConvertElements(Class.of<int>(), Class.of<num>(), service), isTrue);
+      expect(ConversionUtils.canConvert(Class.of<String>(), Class.of<int>(), service), isTrue);
+      expect(ConversionUtils.canConvert(Class.of<int>(), Class.of<num>(), service), isTrue);
     });
 
     test('canConvertElements should return false for non-convertible elements', () {
-      expect(ConversionUtils.canConvertElements(Class.of<int>(), Class.of<DateTime>(), service), isFalse);
+      expect(ConversionUtils.canConvert(Class.of<int>(), Class.of<DateTime>(), service), isFalse);
     });
 
     test('canConvertElements should handle null targetElementType', () {
-      expect(ConversionUtils.canConvertElements(Class.of<String>(), null, service), isTrue);
+      expect(ConversionUtils.canConvert(Class.of<String>(), null, service), isTrue);
     });
 
     test('canConvertElements should handle null sourceElementType', () {
-      expect(ConversionUtils.canConvertElements(null, Class.of<String>(), service), isTrue);
+      expect(ConversionUtils.canConvert(null, Class.of<String>(), service), isTrue);
     });
 
     test('getEnumType should return enum Class for enum type', () {
@@ -65,7 +66,7 @@ void main() async {
   });
 }
 
-class _ThrowingConverter implements GenericConverter {
+class _ThrowingConverter extends CommonPairedConverter {
   @override
   Set<ConvertiblePair>? getConvertibleTypes() => {
     ConvertiblePair(Class.of<String>(), Class.of<int>()),

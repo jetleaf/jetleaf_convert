@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addScalarConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addScalarConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addScalarConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addScalarConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -67,33 +67,33 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addScalarConverters(ConverterRegistry converterRegistry) {
-  converterRegistry.addGenericConverter(NumberGenericConverter());
-  converterRegistry.addGenericConverter(BoolGenericConverter());
-  converterRegistry.addGenericConverter(BigIntGenericConverter());
-  converterRegistry.addGenericConverter(IntegerGenericConverter());
-  converterRegistry.addGenericConverter(LongGenericConverter());
-  converterRegistry.addGenericConverter(FloatGenericConverter());
-  converterRegistry.addGenericConverter(BigIntegerGenericConverter());
-  converterRegistry.addGenericConverter(BigDecimalGenericConverter());
-  converterRegistry.addGenericConverter(ShortGenericConverter());
-  converterRegistry.addGenericConverter(DoubledGenericConverter());
-  converterRegistry.addGenericConverter(BooleanGenericConverter());
-  converterRegistry.addGenericConverter(CharacterGenericConverter());
+  <pre class="language-dart"><code class="language-dart">static void addScalarConverters(ConverterRegistry registry) {
+  registry.addPairedConverter(NumberGenericConverter());
+  registry.addPairedConverter(BoolGenericConverter());
+  registry.addPairedConverter(BigIntGenericConverter());
+  registry.addPairedConverter(IntegerGenericConverter());
+  registry.addPairedConverter(LongGenericConverter());
+  registry.addPairedConverter(FloatGenericConverter());
+  registry.addPairedConverter(BigIntegerGenericConverter());
+  registry.addPairedConverter(BigDecimalGenericConverter());
+  registry.addPairedConverter(ShortGenericConverter());
+  registry.addPairedConverter(DoubledGenericConverter());
+  registry.addPairedConverter(BooleanGenericConverter());
+  registry.addPairedConverter(CharacterGenericConverter());
 
   &#47;&#47; String&#47;Character converters
-  converterRegistry.addConverter(StringToRunesConverter());
-  converterRegistry.addConverter(RunesToStringConverter());
+  registry.addConverter(StringToRunesConverter());
+  registry.addConverter(RunesToStringConverter());
 
   &#47;&#47; Enum converters
-  converterRegistry.addConverterFactory(StringToEnumConverterFactory());
-  converterRegistry.addConverter(EnumToStringConverter());
-  converterRegistry.addConverterFactory(IntToEnumConverterFactory());
-  converterRegistry.addConverter(EnumToIntConverter());
+  registry.addConverterFactory(StringToEnumConverterFactory());
+  registry.addConverter(EnumToStringConverter());
+  registry.addConverterFactory(IntToEnumConverterFactory());
+  registry.addConverter(EnumToIntConverter());
 
   &#47;&#47; Symbol converters
-  converterRegistry.addConverter(StringToSymbolConverter());
-  converterRegistry.addConverter(SymbolToStringConverter());
+  registry.addConverter(StringToSymbolConverter());
+  registry.addConverter(SymbolToStringConverter());
 }</code></pre>
 </section>
 

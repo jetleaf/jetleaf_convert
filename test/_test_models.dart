@@ -12,9 +12,8 @@
 // 
 // 🔧 Powered by Hapnium — the Dart backend engine 🍃
 
-import 'dart:convert';
-
 import 'package:jetleaf_convert/convert.dart';
+import 'package:jetleaf_convert/src/helpers/_commons.dart';
 import 'package:jetleaf_lang/lang.dart';
 
 // --- Dummy Classes and Enums for Testing ---
@@ -51,14 +50,14 @@ class MySubClass extends MyClass {
   MySubClass(super.name, super.age);
 }
 
-class CustomConverter extends Converter<String, int> {
+class CustomConverter extends CommonConverter<String, int> {
   @override
   int convert(String source) {
     return int.parse(source) * 2;
   }
 }
 
-class CustomGenericConverter implements GenericConverter {
+class CustomGenericConverter extends CommonPairedConverter {
   @override
   Set<ConvertiblePair>? getConvertibleTypes() {
     return {
@@ -75,7 +74,7 @@ class CustomGenericConverter implements GenericConverter {
   }
 }
 
-class CustomConverterFactory implements ConverterFactory<String, num> {
+class CustomConverterFactory extends CommonConverterFactory<String, num> {
   @override
   Converter<String, T>? getConverter<T>(Class<T> targetType) {
     if (targetType.getType() == int) {
@@ -87,12 +86,12 @@ class CustomConverterFactory implements ConverterFactory<String, num> {
   }
 }
 
-class StringToIntConverter extends Converter<String, int> {
+class StringToIntConverter extends CommonConverter<String, int> {
   @override
   int convert(String source) => int.parse(source);
 }
 
-class StringToDoubleConverter extends Converter<String, double> {
+class StringToDoubleConverter extends CommonConverter<String, double> {
   @override
   double convert(String source) => double.parse(source);
 }

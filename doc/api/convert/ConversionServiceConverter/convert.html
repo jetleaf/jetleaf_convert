@@ -56,7 +56,7 @@
       
   <div>
     <ol class="annotation-list">
-        <li>@<a href="https://api.dart.dev/stable/3.9.0/dart-core/override-constant.html">override</a></li>
+        <li>@<a href="https://api.dart.dev/stable/3.9.2/dart-core/override-constant.html">override</a></li>
     </ol>
   </div>
 <span class="returntype">T</span>
@@ -68,7 +68,50 @@
     </section>
     
 <section class="desc markdown">
-  <p>Converts <code>input</code> and returns the result of the conversion.</p>
+  <p>A generic interface for converting an input of type <code>S</code> into an output of
+type <code>T</code>.</p>
+<p>Converters are commonly used in Jetleaf when transforming data between
+different layers, formats, or domains. This abstraction allows developers
+to define reusable transformation logic while keeping code strongly typed.</p>
+<ul>
+<li><code>S</code> is the source type (input).</li>
+<li><code>T</code> is the target type (output).</li>
+</ul>
+<h2 id="example">Example</h2>
+<p>Converting a <code>String</code> to an <code>int</code>:</p>
+<pre class="language-dart"><code class="language-dart">class StringToIntConverter implements Converter&lt;String, int&gt; {
+  @override
+  int convert(String source) {
+    return int.parse(source);
+  }
+}
+
+void main() {
+  final converter = StringToIntConverter();
+  final number = converter.convert("42");
+  print(number); // 42
+}
+</code></pre>
+<p>Converting a <code>Map</code> into a custom model:</p>
+<pre class="language-dart"><code class="language-dart">class User {
+  final String name;
+  final int age;
+  User(this.name, this.age);
+}
+
+class MapToUserConverter implements Converter&lt;Map&lt;String, Object?&gt;, User&gt; {
+  @override
+  User convert(Map&lt;String, Object?&gt; source) {
+    return User(source['name'] as String, source['age'] as int);
+  }
+}
+
+void main() {
+  final converter = MapToUserConverter();
+  final user = converter.convert({'name': 'Alice', 'age': 30});
+  print(user.name); // Alice
+}
+</code></pre>
 </section>
 
 

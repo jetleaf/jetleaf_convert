@@ -36,13 +36,13 @@ void main() async {
     });
 
     test('addConverterWithClass should register a custom Converter with specific types', () {
-      service.addConverterWithClass(Class.of<String>(), Class.of<int>(), CustomConverter());
+      service.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter());
       expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue);
       expect(service.convert<int>('10', Class.of<int>()), 20); // CustomConverter should now be used
     });
 
     test('addGenericConverter should register a custom GenericConverter', () {
-      service.addGenericConverter(CustomGenericConverter());
+      service.addPairedConverter(CustomGenericConverter());
       expect(service.canConvert(Class.of<String>(), Class.of<bool>()), isTrue);
       expect(service.convert<bool>('yes', Class.of<bool>()), isTrue);
       expect(service.convert<bool>('no', Class.of<bool>()), isFalse);
@@ -57,10 +57,10 @@ void main() async {
     });
 
     test('removeConvertible should remove a registered converter', () {
-      service.addConverterWithClass(Class.of<String>(), Class.of<int>(), CustomConverter());
+      service.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter());
       expect(service.convert<int>('5', Class.of<int>()), 10); // Custom converter is active
 
-      service.removeConvertible(Class.of<String>(), Class.of<int>());
+      service.remove(Class.of<String>(), Class.of<int>());
       // After removal, it should fall back to default or no converter
       expect(service.convert<int>('5', Class.of<int>()), 5); // Should revert to default
     });
@@ -74,7 +74,7 @@ void main() async {
     test('Object to Object (via constructor)', () {
       final sourceMap = {'name': 'Alice', 'age': 30};
       final targetType = Class.of<MyClass>();
-      final result = service.convertWithClass(sourceMap, targetType);
+      final result = service.convertTo(sourceMap, targetType);
       expect(result, MyClass('Alice', 30));
     });
 

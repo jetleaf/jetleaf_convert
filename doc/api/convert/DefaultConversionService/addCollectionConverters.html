@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addCollectionConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addCollectionConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addCollectionConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addCollectionConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,36 +70,42 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addCollectionConverters(ConverterRegistry converterRegistry) {
-  final conversionService = converterRegistry as ConversionService;
+  <pre class="language-dart"><code class="language-dart">static void addCollectionConverters(ConverterRegistry registry) {
+  final conversionService = registry as ConversionService;
 
-  converterRegistry.addGenericConverter(StringGenericConverter());
-  converterRegistry.addGenericConverter(DoubleGenericConverter());
-  converterRegistry.addGenericConverter(IntGenericConverter());
-
-  converterRegistry.addGenericConverter(ListToCollectionConverter(conversionService));
-  converterRegistry.addGenericConverter(SetToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(QueueToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(IterableToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(ArrayListToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(SetBaseToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(ListBaseToCollectionConverter(conversionService));
-  converterRegistry.addGenericConverter(LinkedQueueToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(LinkedListToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(HashSetToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(StackToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(LinkedStackToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(StringToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(CollectionToStringGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(IntToCollectionGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(CollectionToIntGenericConverter(conversionService));
+  registry.addPairedConverter(StringGenericConverter());
+  registry.addPairedConverter(DoubleGenericConverter());
+  registry.addPairedConverter(IntGenericConverter());
 
   &#47;&#47; Object converters
-  converterRegistry.addGenericConverter(ObjectToListConverter(conversionService));
-  converterRegistry.addGenericConverter(ObjectToSetConverter(conversionService));
-  converterRegistry.addGenericConverter(ListToObjectConverter(conversionService));
-  converterRegistry.addGenericConverter(SetToObjectConverter(conversionService));
+  registry.addPairedConverter(ObjectToListConverter(conversionService));
+  registry.addPairedConverter(ObjectToSetConverter(conversionService));
+  registry.addPairedConverter(ListToObjectConverter(conversionService));
+  registry.addPairedConverter(SetToObjectConverter(conversionService));
+
+  registry.addPairedConverter(SetToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(QueueToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(IterableToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(ArrayListToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(SetBaseToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(ListBaseToCollectionConverter(conversionService));
+  registry.addPairedConverter(LinkedQueueToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedListToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(HashSetToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(StackToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedStackToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(IterableToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(ArrayListToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(SetBaseToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(ListBaseToCollectionConverter(conversionService));
+  registry.addPairedConverter(LinkedQueueToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedListToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(HashSetToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(StackToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(LinkedStackToCollectionGenericConverter(conversionService));
+  registry.addPairedConverter(ListToCollectionConverter(conversionService));
 }</code></pre>
 </section>
 

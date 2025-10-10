@@ -42,20 +42,57 @@
 <main>
   <div id="dartdoc-main-content" class="main-content">
       
+<section class="desc markdown">
+  <h1 id="jetleaf-convert">JetLeaf Convert</h1>
+<p>A powerful type conversion library for Dart that provides high-level conversion capabilities between different data types. This package is part of the JetLeaf framework and offers a flexible and extensible way to handle type conversions in your Dart applications.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Type Conversion</strong>: Convert between various Dart and custom types</li>
+<li><strong>Extensible</strong>: Easily add custom converters for your types</li>
+<li><strong>Format Support</strong>: Built-in support for common data formats</li>
+<li><strong>Null Safety</strong>: Fully null-safe implementation</li>
+<li><strong>Dependency Injection</strong>: Seamless integration with dependency injection systems</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Add the following to your <code>pubspec.yaml</code>:</p>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  jetleaf_convert: ^1.0.0
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<pre class="language-dart"><code class="language-dart">import 'package:jetleaf_convert/jetleaf_convert.dart';
+
+void main() {
+  // Create a conversion service
+  final conversionService = DefaultConversionService();
+  
+  // Convert between types
+  final int number = conversionService.convert('42', int);
+  print(number); // 42
+  
+  // Convert collections
+  final List&lt;Object&gt; stringList = conversionService.convert([1, 2, 3], List&lt;String&gt;);
+  print(stringList); // ['1', '2', '3']
+}
+</code></pre>
+<h2 id="documentation">Documentation</h2>
+<p>For detailed documentation, please refer to the <a href="doc/api/README.md">API Reference</a>.</p>
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
+</section>
 
 
       <section class="summary">
           <h2>Libraries</h2>
         <dl>
-          <dt id="convert">
-  <span class="name"><a href="convert/">convert</a></span> 
+          <dt id="adapter">
+  <span class="name"><a href="adapter/">adapter</a></span> 
 
 </dt>
 <dd>
 </dd>
 
-          <dt id="format">
-  <span class="name"><a href="format/">format</a></span> 
+          <dt id="convert">
+  <span class="name"><a href="convert/">convert</a></span> 
 
 </dt>
 <dd>
@@ -78,8 +115,8 @@
     <h5 class="hidden-xs"><span class="package-name">jetleaf_convert</span> <span class="package-kind">package</span></h5>
     <ol>
       <li class="section-title">Libraries</li>
+      <li><a href="adapter/">adapter</a></li>
       <li><a href="convert/">convert</a></li>
-      <li><a href="format/">format</a></li>
 </ol>
 
   </div>

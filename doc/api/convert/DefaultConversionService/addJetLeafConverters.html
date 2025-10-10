@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addJetLeafConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addJetLeafConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addJetLeafConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addJetLeafConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,17 +70,14 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addJetLeafConverters(ConverterRegistry converterRegistry) {
-  final conversionService = converterRegistry as ConversionService;
-
-  converterRegistry.addGenericConverter(StreamConverter(conversionService));
-  converterRegistry.addConverter(StringToUuidConverter());
-  converterRegistry.addConverter(UuidToStringConverter());
-  converterRegistry.addConverter(StringToCurrencyConverter());
-  converterRegistry.addConverter(CurrencyToStringConverter());
-  converterRegistry.addConverter(StringToLocaleConverter());
-  converterRegistry.addConverter(LocaleToStringConverter());
-  converterRegistry.addGenericConverter(ByteMultiConverter());
+  <pre class="language-dart"><code class="language-dart">static void addJetLeafConverters(ConverterRegistry registry) {
+  registry.addConverter(StringToUuidConverter());
+  registry.addConverter(UuidToStringConverter());
+  registry.addConverter(StringToCurrencyConverter());
+  registry.addConverter(CurrencyToStringConverter());
+  registry.addConverter(StringToLocaleConverter());
+  registry.addConverter(LocaleToStringConverter());
+  registry.addPairedConverter(ByteMultiConverter());
 }</code></pre>
 </section>
 

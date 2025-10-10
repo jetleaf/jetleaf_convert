@@ -14,18 +14,15 @@
 
 library;
 
-export 'src/conversion_service/conversion_service.dart';
-export 'src/conversion_service/conversion_service_converter.dart';
-export 'src/conversion_service/conversion_service_factory.dart';
+export 'src/types/service_converter.dart';
 
-export 'src/converter/converter_factory.dart';
-export 'src/converter/converter_registry.dart';
-export 'src/converter/converters.dart';
-
+export 'src/core/converters.dart';
+export 'src/core/conversion_service.dart';
+export 'src/core/converter_registry.dart';
 export 'src/core/default_conversion_service.dart';
-export 'src/core/generic_conversion_service.dart';
+export 'src/core/simple_conversion_service.dart';
+export 'src/core/converting_comparator.dart';
 
-export 'src/conversion_utils.dart';
-export 'src/convertible_pair.dart';
-export 'src/converting_comparator.dart';
+export 'src/helpers/conversion_utils.dart';
+export 'src/helpers/convertible_pair.dart';
 export 'src/exceptions.dart';

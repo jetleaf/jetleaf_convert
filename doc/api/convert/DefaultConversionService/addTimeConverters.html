@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addTimeConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addTimeConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addTimeConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addTimeConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,59 +70,50 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addTimeConverters(ConverterRegistry converterRegistry) {
+  <pre class="language-dart"><code class="language-dart">static void addTimeConverters(ConverterRegistry registry) {
   &#47;&#47; String to time object converters
-  converterRegistry.addConverter(StringToDateTimeConverter());
-  converterRegistry.addConverter(StringToLocalDateTimeConverter());
-  converterRegistry.addConverter(StringToLocalDateConverter());
-  converterRegistry.addConverter(StringToLocalTimeConverter());
-  converterRegistry.addConverter(StringToZoneIdConverter());
-  converterRegistry.addConverter(StringToZonedDateTimeConverter());
-  converterRegistry.addConverter(StringToDurationConverter());
+  registry.addConverter(StringToDateTimeConverter());
+  registry.addConverter(StringToLocalDateTimeConverter());
+  registry.addConverter(StringToLocalDateConverter());
+  registry.addConverter(StringToLocalTimeConverter());
+  registry.addConverter(StringToZoneIdConverter());
+  registry.addConverter(StringToDurationConverter());
 
   &#47;&#47; Time object to string converters
-  converterRegistry.addConverter(DateTimeToStringConverter());
-  converterRegistry.addConverter(LocalDateTimeToStringConverter());
-  converterRegistry.addConverter(LocalDateToStringConverter());
-  converterRegistry.addConverter(LocalTimeToStringConverter());
-  converterRegistry.addConverter(ZoneIdToStringConverter());
-  converterRegistry.addConverter(ZonedDateTimeToStringConverter());
-  converterRegistry.addConverter(DurationToStringConverter());
+  registry.addConverter(DateTimeToStringConverter());
+  registry.addConverter(LocalDateTimeToStringConverter());
+  registry.addConverter(LocalDateToStringConverter());
+  registry.addConverter(LocalTimeToStringConverter());
+  registry.addConverter(LocalTimeToStringConverter());
+  registry.addConverter(ZonedDateTimeToStringConverter());
+  registry.addConverter(DurationToStringConverter());
 
   &#47;&#47; DateTime cross-conversions
-  converterRegistry.addConverter(DateTimeToLocalDateTimeConverter());
-  converterRegistry.addConverter(LocalDateTimeToDateTimeConverter());
-  converterRegistry.addConverter(DateTimeToLocalDateConverter());
-  converterRegistry.addConverter(LocalDateToDateTimeConverter());
-  converterRegistry.addConverter(DateTimeToLocalTimeConverter());
-  converterRegistry.addConverter(DateTimeToZonedDateTimeConverter());
-  converterRegistry.addConverter(ZonedDateTimeToDateTimeConverter());
+  registry.addConverter(DateTimeToLocalDateTimeConverter());
+  registry.addConverter(LocalDateTimeToDateTimeConverter());
+  registry.addConverter(DateTimeToLocalDateConverter());
+  registry.addConverter(LocalDateToDateTimeConverter());
+  registry.addConverter(DateTimeToLocalTimeConverter());
+  registry.addConverter(DateTimeToZonedDateTimeConverter());
+  registry.addConverter(ZonedDateTimeToDateTimeConverter());
 
   &#47;&#47; Epoch milliseconds converters
-  converterRegistry.addConverter(IntToDateTimeConverter());
-  converterRegistry.addConverter(DateTimeToIntConverter());
-  converterRegistry.addConverter(IntToZonedDateTimeConverter());
-  converterRegistry.addConverter(ZonedDateTimeToIntConverter());
-  converterRegistry.addConverter(IntToDurationConverter());
-  converterRegistry.addConverter(DurationToIntConverter());
+  registry.addConverter(IntToDateTimeConverter());
+  registry.addConverter(DateTimeToIntConverter());
+  registry.addConverter(IntToZonedDateTimeConverter(defaultZone));
+  registry.addConverter(ZonedDateTimeToIntConverter());
+  registry.addConverter(IntToDurationConverter());
+  registry.addConverter(DurationToIntConverter());
 
   &#47;&#47; Cross-type converters
-  converterRegistry.addConverter(LocalDateTimeToLocalDateConverter());
-  converterRegistry.addConverter(LocalDateTimeToLocalTimeConverter());
-  converterRegistry.addConverter(LocalDateAndLocalTimeToLocalDateTimeConverter());
-  converterRegistry.addConverter(LocalDateTimeToZonedDateTimeConverter(ZoneId.UTC));
-  converterRegistry.addConverter(ZonedDateTimeToLocalDateTimeConverter());
-  converterRegistry.addConverter(ZonedDateTimeToLocalDateConverter());
-  converterRegistry.addConverter(ZonedDateTimeToLocalTimeConverter());
-  converterRegistry.addConverter(ZonedDateTimeToZoneIdConverter());
-
-  &#47;&#47; List converters
-  converterRegistry.addConverter(ListStringToListDateTimeConverter());
-  converterRegistry.addConverter(ListDateTimeToListStringConverter());
-  converterRegistry.addConverter(ListStringToListLocalDateTimeConverter());
-  converterRegistry.addConverter(ListLocalDateTimeToListStringConverter());
-  converterRegistry.addConverter(ListStringToListZoneIdConverter());
-  converterRegistry.addConverter(ListZoneIdToListStringConverter());
+  registry.addConverter(LocalDateTimeToLocalDateConverter());
+  registry.addConverter(LocalDateTimeToLocalTimeConverter());
+  registry.addConverter(LocalDateAndLocalTimeToLocalDateTimeConverter());
+  registry.addConverter(LocalDateTimeToZonedDateTimeConverter(defaultZone));
+  registry.addConverter(ZonedDateTimeToLocalDateTimeConverter());
+  registry.addConverter(ZonedDateTimeToLocalDateConverter());
+  registry.addConverter(ZonedDateTimeToLocalTimeConverter());
+  registry.addConverter(ZonedDateTimeToZoneIdConverter());
 }</code></pre>
 </section>
 

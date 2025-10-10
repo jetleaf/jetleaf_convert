@@ -14,18 +14,18 @@
 
 import 'package:jetleaf_lang/lang.dart';
 
-import '../conversion_service/conversion_service.dart';
-import 'generic_conversion_service.dart';
-import '../converter/converter_registry.dart';
+import 'conversion_service.dart';
+import 'simple_conversion_service.dart';
+import 'converter_registry.dart';
 
-import '../types/map_converter.dart';
-import '../types/time_converter.dart';
-import '../types/jl_converter.dart';
-import '../types/collection_converter.dart';
-import '../types/object_converter.dart';
-import '../types/dart_converter.dart';
+import '../types/time_converters.dart';
+import '../types/map_converters.dart';
+import '../types/jl_converters.dart';
+import '../types/collection_converters.dart';
+import '../types/object_converters.dart';
+import '../types/dart_converters.dart';
 
-/// A specialization of [GenericConversionService] configured by default
+/// A specialization of [SimpleConversionService] configured by default
 /// with converters appropriate for most environments.
 /// 
 /// Designed for direct instantiation but also exposes the static
@@ -38,8 +38,9 @@ import '../types/dart_converter.dart';
 /// final result = service.convert('123', Class.forType(int));
 /// print(result); // 123
 /// ```
-class DefaultConversionService extends GenericConversionService {
+class DefaultConversionService extends SimpleConversionService {
   static DefaultConversionService? _sharedInstance;
+  static ZoneId defaultZone = ZoneId.systemDefault();
   
   /// Create a new [DefaultConversionService] with the set of default converters.
   DefaultConversionService([super.protectionDomain]) {
@@ -69,192 +70,176 @@ class DefaultConversionService extends GenericConversionService {
   }
   
   /// Add converters appropriate for most environments.
-  static void addDefaultConverters(ConverterRegistry converterRegistry) {
-    addScalarConverters(converterRegistry);
-    addCollectionConverters(converterRegistry);
-    addTimeConverters(converterRegistry);
-    addMapConverters(converterRegistry);
-    addOptionalConverters(converterRegistry);
-    addJetLeafConverters(converterRegistry);
-    addOtherDartConverters(converterRegistry);
+  static void addDefaultConverters(ConverterRegistry registry) {
+    addScalarConverters(registry);
+    addTimeConverters(registry);
+    addMapConverters(registry);
+    addJetLeafConverters(registry);
+    addOtherDartConverters(registry);
     
     // Core object converters
-    converterRegistry.addGenericConverter(ObjectToObjectConverter());
-    converterRegistry.addGenericConverter(FallbackObjectToStringConverter());
+    registry.addPairedConverter(ObjectToObjectConverter());
+    registry.addPairedConverter(FallbackObjectToStringConverter());
+
+    addCollectionConverters(registry);
   }
   
   /// Add time-related converters.
-  static void addTimeConverters(ConverterRegistry converterRegistry) {
+  static void addTimeConverters(ConverterRegistry registry) {
     // String to time object converters
-    converterRegistry.addConverter(StringToDateTimeConverter());
-    converterRegistry.addConverter(StringToLocalDateTimeConverter());
-    converterRegistry.addConverter(StringToLocalDateConverter());
-    converterRegistry.addConverter(StringToLocalTimeConverter());
-    converterRegistry.addConverter(StringToZoneIdConverter());
-    converterRegistry.addConverter(StringToZonedDateTimeConverter());
-    converterRegistry.addConverter(StringToDurationConverter());
+    registry.addConverter(StringToDateTimeConverter());
+    registry.addConverter(StringToLocalDateTimeConverter());
+    registry.addConverter(StringToLocalDateConverter());
+    registry.addConverter(StringToLocalTimeConverter());
+    registry.addConverter(StringToZoneIdConverter());
+    registry.addConverter(StringToDurationConverter());
     
     // Time object to string converters
-    converterRegistry.addConverter(DateTimeToStringConverter());
-    converterRegistry.addConverter(LocalDateTimeToStringConverter());
-    converterRegistry.addConverter(LocalDateToStringConverter());
-    converterRegistry.addConverter(LocalTimeToStringConverter());
-    converterRegistry.addConverter(ZoneIdToStringConverter());
-    converterRegistry.addConverter(ZonedDateTimeToStringConverter());
-    converterRegistry.addConverter(DurationToStringConverter());
+    registry.addConverter(DateTimeToStringConverter());
+    registry.addConverter(LocalDateTimeToStringConverter());
+    registry.addConverter(LocalDateToStringConverter());
+    registry.addConverter(LocalTimeToStringConverter());
+    registry.addConverter(LocalTimeToStringConverter());
+    registry.addConverter(ZonedDateTimeToStringConverter());
+    registry.addConverter(DurationToStringConverter());
     
     // DateTime cross-conversions
-    converterRegistry.addConverter(DateTimeToLocalDateTimeConverter());
-    converterRegistry.addConverter(LocalDateTimeToDateTimeConverter());
-    converterRegistry.addConverter(DateTimeToLocalDateConverter());
-    converterRegistry.addConverter(LocalDateToDateTimeConverter());
-    converterRegistry.addConverter(DateTimeToLocalTimeConverter());
-    converterRegistry.addConverter(DateTimeToZonedDateTimeConverter());
-    converterRegistry.addConverter(ZonedDateTimeToDateTimeConverter());
+    registry.addConverter(DateTimeToLocalDateTimeConverter());
+    registry.addConverter(LocalDateTimeToDateTimeConverter());
+    registry.addConverter(DateTimeToLocalDateConverter());
+    registry.addConverter(LocalDateToDateTimeConverter());
+    registry.addConverter(DateTimeToLocalTimeConverter());
+    registry.addConverter(DateTimeToZonedDateTimeConverter());
+    registry.addConverter(ZonedDateTimeToDateTimeConverter());
     
     // Epoch milliseconds converters
-    converterRegistry.addConverter(IntToDateTimeConverter());
-    converterRegistry.addConverter(DateTimeToIntConverter());
-    converterRegistry.addConverter(IntToZonedDateTimeConverter());
-    converterRegistry.addConverter(ZonedDateTimeToIntConverter());
-    converterRegistry.addConverter(IntToDurationConverter());
-    converterRegistry.addConverter(DurationToIntConverter());
+    registry.addConverter(IntToDateTimeConverter());
+    registry.addConverter(DateTimeToIntConverter());
+    registry.addConverter(IntToZonedDateTimeConverter(defaultZone));
+    registry.addConverter(ZonedDateTimeToIntConverter());
+    registry.addConverter(IntToDurationConverter());
+    registry.addConverter(DurationToIntConverter());
     
     // Cross-type converters
-    converterRegistry.addConverter(LocalDateTimeToLocalDateConverter());
-    converterRegistry.addConverter(LocalDateTimeToLocalTimeConverter());
-    converterRegistry.addConverter(LocalDateAndLocalTimeToLocalDateTimeConverter());
-    converterRegistry.addConverter(LocalDateTimeToZonedDateTimeConverter(ZoneId.UTC));
-    converterRegistry.addConverter(ZonedDateTimeToLocalDateTimeConverter());
-    converterRegistry.addConverter(ZonedDateTimeToLocalDateConverter());
-    converterRegistry.addConverter(ZonedDateTimeToLocalTimeConverter());
-    converterRegistry.addConverter(ZonedDateTimeToZoneIdConverter());
-    
-    // List converters
-    converterRegistry.addConverter(ListStringToListDateTimeConverter());
-    converterRegistry.addConverter(ListDateTimeToListStringConverter());
-    converterRegistry.addConverter(ListStringToListLocalDateTimeConverter());
-    converterRegistry.addConverter(ListLocalDateTimeToListStringConverter());
-    converterRegistry.addConverter(ListStringToListZoneIdConverter());
-    converterRegistry.addConverter(ListZoneIdToListStringConverter());
+    registry.addConverter(LocalDateTimeToLocalDateConverter());
+    registry.addConverter(LocalDateTimeToLocalTimeConverter());
+    registry.addConverter(LocalDateAndLocalTimeToLocalDateTimeConverter());
+    registry.addConverter(LocalDateTimeToZonedDateTimeConverter(defaultZone));
+    registry.addConverter(ZonedDateTimeToLocalDateTimeConverter());
+    registry.addConverter(ZonedDateTimeToLocalDateConverter());
+    registry.addConverter(ZonedDateTimeToLocalTimeConverter());
+    registry.addConverter(ZonedDateTimeToZoneIdConverter());
   }
   
   /// Add map-related converters.
-  static void addMapConverters(ConverterRegistry converterRegistry) {
-    final conversionService = converterRegistry as ConversionService;
+  static void addMapConverters(ConverterRegistry registry) {
+    final conversionService = registry as ConversionService;
     
-    converterRegistry.addGenericConverter(StringToMapGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(MapToStringGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(MapToMapGenericConverter(conversionService));
-  }
-  
-  /// Add optional-related converters.
-  static void addOptionalConverters(ConverterRegistry converterRegistry) {
-    final conversionService = converterRegistry as ConversionService;
-    
-    converterRegistry.addGenericConverter(ObjectToOptionalConverter(conversionService));
-    converterRegistry.addGenericConverter(OptionalToObjectConverter(conversionService));
+    registry.addPairedConverter(StringToMapGenericConverter(conversionService));
+    registry.addPairedConverter(MapToStringGenericConverter(conversionService));
+    registry.addPairedConverter(MapToMapGenericConverter(conversionService));
   }
   
   /// Add JetLeaf-specific converters.
-  static void addJetLeafConverters(ConverterRegistry converterRegistry) {
-    final conversionService = converterRegistry as ConversionService;
-    
-    converterRegistry.addGenericConverter(StreamConverter(conversionService));
-    converterRegistry.addConverter(StringToUuidConverter());
-    converterRegistry.addConverter(UuidToStringConverter());
-    converterRegistry.addConverter(StringToCurrencyConverter());
-    converterRegistry.addConverter(CurrencyToStringConverter());
-    converterRegistry.addConverter(StringToLocaleConverter());
-    converterRegistry.addConverter(LocaleToStringConverter());
-    converterRegistry.addGenericConverter(ByteMultiConverter());
+  static void addJetLeafConverters(ConverterRegistry registry) {
+    registry.addConverter(StringToUuidConverter());
+    registry.addConverter(UuidToStringConverter());
+    registry.addConverter(StringToCurrencyConverter());
+    registry.addConverter(CurrencyToStringConverter());
+    registry.addConverter(StringToLocaleConverter());
+    registry.addConverter(LocaleToStringConverter());
+    registry.addPairedConverter(ByteMultiConverter());
   }
   
   /// Add other Dart built-in type converters.
-  static void addOtherDartConverters(ConverterRegistry converterRegistry) {
-    final conversionService = converterRegistry as ConversionService;
-    
+  static void addOtherDartConverters(ConverterRegistry registry) {
     // Runes converters
-    converterRegistry.addConverter(StringToRunesConverter());
-    converterRegistry.addConverter(RunesToStringConverter());
+    registry.addConverter(StringToRunesConverter());
+    registry.addConverter(RunesToStringConverter());
     
     // Symbol converters
-    converterRegistry.addConverter(StringToSymbolConverter());
-    converterRegistry.addConverter(SymbolToStringConverter());
+    registry.addConverter(StringToSymbolConverter());
+    registry.addConverter(SymbolToStringConverter());
     
     // URI converters
-    converterRegistry.addConverter(StringToUriConverter(conversionService.getUriValidators()));
-    converterRegistry.addConverter(UriToStringConverter());
+    if(registry is ListableConverterRegistry) {
+      registry.addConverter(StringToUriConverter(registry.getUriValidators()));
+    }
+
+    registry.addConverter(UriToStringConverter());
     
     // RegExp converters
-    converterRegistry.addConverter(StringToRegExpConverter());
-    converterRegistry.addConverter(RegExpToStringConverter());
-    converterRegistry.addConverter(StringToPatternConverter());
-    converterRegistry.addConverter(PatternToStringConverter());
-    
-    // Stream converters
-    converterRegistry.addGenericConverter(DartStreamConverter(conversionService));
+    registry.addConverter(StringToRegExpConverter());
+    registry.addConverter(RegExpToStringConverter());
+    registry.addConverter(StringToPatternConverter());
+    registry.addConverter(PatternToStringConverter());
   }
 
   /// Add common collection converters.
-  static void addCollectionConverters(ConverterRegistry converterRegistry) {
-    final conversionService = converterRegistry as ConversionService;
-    
-    converterRegistry.addGenericConverter(StringGenericConverter());
-    converterRegistry.addGenericConverter(DoubleGenericConverter());
-    converterRegistry.addGenericConverter(IntGenericConverter());
+  static void addCollectionConverters(ConverterRegistry registry) {
+    final conversionService = registry as ConversionService;
 
-    converterRegistry.addGenericConverter(ListToCollectionConverter(conversionService));
-    converterRegistry.addGenericConverter(SetToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(QueueToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(IterableToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(ArrayListToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(SetBaseToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(ListBaseToCollectionConverter(conversionService));
-    converterRegistry.addGenericConverter(LinkedQueueToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(LinkedListToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(HashSetToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(StackToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(LinkedStackToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(StringToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(CollectionToStringGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(IntToCollectionGenericConverter(conversionService));
-    converterRegistry.addGenericConverter(CollectionToIntGenericConverter(conversionService));
-    
+    registry.addPairedConverter(StringGenericConverter());
+    registry.addPairedConverter(DoubleGenericConverter());
+    registry.addPairedConverter(IntGenericConverter());
+
     // Object converters
-    converterRegistry.addGenericConverter(ObjectToListConverter(conversionService));
-    converterRegistry.addGenericConverter(ObjectToSetConverter(conversionService));
-    converterRegistry.addGenericConverter(ListToObjectConverter(conversionService));
-    converterRegistry.addGenericConverter(SetToObjectConverter(conversionService));
+    registry.addPairedConverter(ObjectToListConverter(conversionService));
+    registry.addPairedConverter(ObjectToSetConverter(conversionService));
+    registry.addPairedConverter(ListToObjectConverter(conversionService));
+    registry.addPairedConverter(SetToObjectConverter(conversionService));
+
+    registry.addPairedConverter(SetToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(QueueToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(IterableToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(ArrayListToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(SetBaseToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(ListBaseToCollectionConverter(conversionService));
+    registry.addPairedConverter(LinkedQueueToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedListToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(HashSetToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(StackToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedStackToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(IterableToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(ArrayListToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(SetBaseToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(ListBaseToCollectionConverter(conversionService));
+    registry.addPairedConverter(LinkedQueueToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedListToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedHashSetToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(HashSetToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(StackToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(LinkedStackToCollectionGenericConverter(conversionService));
+    registry.addPairedConverter(ListToCollectionConverter(conversionService));
   }
   
-  static void addScalarConverters(ConverterRegistry converterRegistry) {
-    converterRegistry.addGenericConverter(NumberGenericConverter());
-    converterRegistry.addGenericConverter(BoolGenericConverter());
-    converterRegistry.addGenericConverter(BigIntGenericConverter());
-    converterRegistry.addGenericConverter(IntegerGenericConverter());
-    converterRegistry.addGenericConverter(LongGenericConverter());
-    converterRegistry.addGenericConverter(FloatGenericConverter());
-    converterRegistry.addGenericConverter(BigIntegerGenericConverter());
-    converterRegistry.addGenericConverter(BigDecimalGenericConverter());
-    converterRegistry.addGenericConverter(ShortGenericConverter());
-    converterRegistry.addGenericConverter(DoubledGenericConverter());
-    converterRegistry.addGenericConverter(BooleanGenericConverter());
-    converterRegistry.addGenericConverter(CharacterGenericConverter());
+  static void addScalarConverters(ConverterRegistry registry) {
+    registry.addPairedConverter(NumberGenericConverter());
+    registry.addPairedConverter(BoolGenericConverter());
+    registry.addPairedConverter(BigIntGenericConverter());
+    registry.addPairedConverter(IntegerGenericConverter());
+    registry.addPairedConverter(LongGenericConverter());
+    registry.addPairedConverter(FloatGenericConverter());
+    registry.addPairedConverter(BigIntegerGenericConverter());
+    registry.addPairedConverter(BigDecimalGenericConverter());
+    registry.addPairedConverter(ShortGenericConverter());
+    registry.addPairedConverter(DoubledGenericConverter());
+    registry.addPairedConverter(BooleanGenericConverter());
+    registry.addPairedConverter(CharacterGenericConverter());
     
     // String/Character converters
-    converterRegistry.addConverter(StringToRunesConverter());
-    converterRegistry.addConverter(RunesToStringConverter());
+    registry.addConverter(StringToRunesConverter());
+    registry.addConverter(RunesToStringConverter());
     
     // Enum converters
-    converterRegistry.addConverterFactory(StringToEnumConverterFactory());
-    converterRegistry.addConverter(EnumToStringConverter());
-    converterRegistry.addConverterFactory(IntToEnumConverterFactory());
-    converterRegistry.addConverter(EnumToIntConverter());
+    registry.addConverterFactory(StringToEnumConverterFactory());
+    registry.addConverter(EnumToStringConverter());
+    registry.addConverterFactory(IntToEnumConverterFactory());
+    registry.addConverter(EnumToIntConverter());
     
     // Symbol converters
-    converterRegistry.addConverter(StringToSymbolConverter());
-    converterRegistry.addConverter(SymbolToStringConverter());
+    registry.addConverter(StringToSymbolConverter());
+    registry.addConverter(SymbolToStringConverter());
   }
 }

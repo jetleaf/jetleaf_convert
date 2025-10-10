@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addOtherDartConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addOtherDartConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addOtherDartConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addOtherDartConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,29 +70,27 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addOtherDartConverters(ConverterRegistry converterRegistry) {
-  final conversionService = converterRegistry as ConversionService;
-
+  <pre class="language-dart"><code class="language-dart">static void addOtherDartConverters(ConverterRegistry registry) {
   &#47;&#47; Runes converters
-  converterRegistry.addConverter(StringToRunesConverter());
-  converterRegistry.addConverter(RunesToStringConverter());
+  registry.addConverter(StringToRunesConverter());
+  registry.addConverter(RunesToStringConverter());
 
   &#47;&#47; Symbol converters
-  converterRegistry.addConverter(StringToSymbolConverter());
-  converterRegistry.addConverter(SymbolToStringConverter());
+  registry.addConverter(StringToSymbolConverter());
+  registry.addConverter(SymbolToStringConverter());
 
   &#47;&#47; URI converters
-  converterRegistry.addConverter(StringToUriConverter(conversionService.getUriValidators()));
-  converterRegistry.addConverter(UriToStringConverter());
+  if(registry is ListableConverterRegistry) {
+    registry.addConverter(StringToUriConverter(registry.getUriValidators()));
+  }
+
+  registry.addConverter(UriToStringConverter());
 
   &#47;&#47; RegExp converters
-  converterRegistry.addConverter(StringToRegExpConverter());
-  converterRegistry.addConverter(RegExpToStringConverter());
-  converterRegistry.addConverter(StringToPatternConverter());
-  converterRegistry.addConverter(PatternToStringConverter());
-
-  &#47;&#47; Stream converters
-  converterRegistry.addGenericConverter(DartStreamConverter(conversionService));
+  registry.addConverter(StringToRegExpConverter());
+  registry.addConverter(RegExpToStringConverter());
+  registry.addConverter(StringToPatternConverter());
+  registry.addConverter(PatternToStringConverter());
 }</code></pre>
 </section>
 

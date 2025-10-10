@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the adapt method from the SetAdapter class, for the Dart programming language.">
+  <title>adapt method - SetAdapter class - adapter library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetleaf_convert</a></li>
+    <li><a href="../../adapter/">adapter.dart</a></li>
+    <li><a href="../../adapter/SetAdapter-class.html">SetAdapter<span class="signature">&lt;<wbr><span class="type-parameter">E</span>&gt;</span></a></li>
+    <li class="self-crumb">adapt method</li>
+  </ol>
+  <div class="self-name">adapt</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="adapter&#47;SetAdapter-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">adapt</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.dart.dev/stable/3.9.2/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter">E</span>&gt;</span></span>
+<span class="name ">adapt</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="adapt-param-source"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">source</span></span></li>
+</ol>)
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>A Jetleaf-specific adapter that lifts generic conversion results
+into strongly-typed values.</p>
+<p>Jetleaf's conversion service always returns results as <code>Object</code>
+(e.g., <code>Map&lt;Object, Object&gt;</code> instead of <code>Map&lt;int, String&gt;</code>).
+This design avoids runtime type conflicts but requires a way
+to <em>adapt</em> those values into the precise type expected by the user.</p>
+<p>The <a href="../../adapter/TypeAdapter-class.html">TypeAdapter</a> abstraction provides that bridge.<br>
+It allows both Jetleaf internals and user code to declare how
+a raw <code>Object</code> from the conversion service should be transformed
+into a fully typed value.</p>
+<h3 id="why">Why?</h3>
+<ul>
+<li>Jetleaf avoids committing to a Dart type at the conversion layer.</li>
+<li>Dart’s type system is strict, so generic <code>Object</code> results need
+adaptation to their concrete forms.</li>
+<li>Adapters guarantee that values are raised into the
+expected type at the call site.</li>
+</ul>
+<h3 id="example-adapting-to-a-typed-map">Example: Adapting to a typed map</h3>
+<pre class="language-dart"><code class="language-dart">class StringIntMapAdapter extends TypeAdapter&lt;Map&lt;String, int&gt;&gt; {
+  @override
+  Map&lt;String, int&gt; adapt(Object? source) {
+    if (source is Map&lt;Object, Object&gt;) {
+      return source.map((k, v) =&gt; MapEntry(k as String, v as int));
+    }
+    throw ArgumentError('Cannot adapt $source to Map&lt;String, int&gt;');
+  }
+}
+
+final raw = &lt;Object, Object&gt;{'a': 1, 'b': 2};
+final adapter = StringIntMapAdapter();
+final typed = adapter.adapt(raw); // -&gt; Map&lt;String, int&gt;
+</code></pre>
+<h3 id="example-adapting-to-a-domain-type">Example: Adapting to a domain type</h3>
+<pre class="language-dart"><code class="language-dart">class User {
+  final String name;
+  final int age;
+  User(this.name, this.age);
+}
+
+class UserAdapter extends TypeAdapter&lt;User&gt; {
+  @override
+  User adapt(Object? source) {
+    if (source is Map&lt;Object, Object&gt;) {
+      return User(source['name'] as String, source['age'] as int);
+    }
+    throw ArgumentError('Cannot adapt $source to User');
+  }
+}
+</code></pre>
+<p>Jetleaf itself uses adapters internally to ensure that results
+from its conversion service are raised to the exact type
+requested by the user.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+Set&lt;E&gt; adapt(Object? source) {
+  if (source == null) return &lt;E&gt;{};
+
+  if (source is Set) {
+    return Set&lt;E&gt;.from(source);
+  }
+
+  if (source is HashSet) {
+    final set = HashSet&lt;E&gt;();
+    for (var e in source) {
+      set.add(e as E);
+    }
+    return set;
+  }
+
+  throw IllegalArgumentException(&#39;Cannot adapt $source to Set&lt;$E&gt;&#39;);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetleaf_convert</a></li>
+    <li><a href="../../adapter/">adapter</a></li>
+    <li><a href="../../adapter/SetAdapter-class.html">SetAdapter<span class="signature">&lt;<wbr><span class="type-parameter">E</span>&gt;</span></a></li>
+    <li class="self-crumb">adapt method</li>
+</ol>
+
+    <h5>SetAdapter class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetleaf_convert
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

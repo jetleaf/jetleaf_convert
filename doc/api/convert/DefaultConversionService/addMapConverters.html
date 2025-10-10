@@ -55,7 +55,7 @@
     <section class="multi-line-signature">
       
 <span class="returntype">void</span>
-<span class="name ">addMapConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addMapConverters-param-converterRegistry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">converterRegistry</span></span></li>
+<span class="name ">addMapConverters</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="addMapConverters-param-registry"><span class="type-annotation"><a href="../../convert/ConverterRegistry-class.html">ConverterRegistry</a></span> <span class="parameter-name">registry</span></span></li>
 </ol>)
 
       
@@ -70,12 +70,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static void addMapConverters(ConverterRegistry converterRegistry) {
-  final conversionService = converterRegistry as ConversionService;
+  <pre class="language-dart"><code class="language-dart">static void addMapConverters(ConverterRegistry registry) {
+  final conversionService = registry as ConversionService;
 
-  converterRegistry.addGenericConverter(StringToMapGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(MapToStringGenericConverter(conversionService));
-  converterRegistry.addGenericConverter(MapToMapGenericConverter(conversionService));
+  registry.addPairedConverter(StringToMapGenericConverter(conversionService));
+  registry.addPairedConverter(MapToStringGenericConverter(conversionService));
+  registry.addPairedConverter(MapToMapGenericConverter(conversionService));
 }</code></pre>
 </section>
 

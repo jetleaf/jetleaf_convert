@@ -63,7 +63,7 @@ void main() {
   group('Performance and Edge Cases', () {
     test('large collections', () {
       final largeList = List.generate(10000, (i) => i.toString());
-      final result = service.convertWithClass(largeList, Class.of<List<int>>());
+      final result = service.convertTo(largeList, Class.of<List<int>>());
       expect(result is List, isTrue);
       expect((result as List).length, 10000);
       expect(result.first, 0);
@@ -72,7 +72,7 @@ void main() {
 
     test('deeply nested collections', () {
       final nested = [['1', '2'], ['3', '4']];
-      final result = service.convertWithClass(nested, Class.of<List<List<int>>>());
+      final result = service.convertTo(nested, Class.of<List<List<int>>>());
       expect(result, [[1, 2], [3, 4]]);
     });
 
