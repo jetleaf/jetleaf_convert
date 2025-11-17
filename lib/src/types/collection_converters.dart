@@ -32,6 +32,7 @@ import 'package:jetleaf_lang/lang.dart';
 
 import '../core/conversion_service.dart';
 import '../helpers/_commons.dart';
+import '../helpers/conversion_adapter_utils.dart';
 import '../helpers/conversion_utils.dart';
 import '../helpers/convertible_pair.dart';
 
@@ -210,37 +211,38 @@ abstract class CollectionToCollectionConverter extends CommonPairedConditionalCo
     final dartType = targetType.getType();
 
     if (dartType == List || dartType == col.ListBase) {
-      return List.from(elements);
+      return ConversionAdapterUtils.getListResult(targetType, List<Object>.from(elements));
     } else if (dartType == Set || dartType == HashSet || dartType == col.SetBase) {
-      return Set.from(elements);
+      return ConversionAdapterUtils.getSetResult(targetType, Set<Object>.from(elements));
     } else if (dartType == col.LinkedHashSet) {
-      return col.LinkedHashSet.from(elements);
+      return col.LinkedHashSet<Object>.from(elements);
     } else if (dartType == Queue || dartType == col.Queue) {
-      return Queue.from(elements);
+      return Queue<Object>.from(List<Object>.from(elements));
     } else if (dartType == LinkedQueue) {
-      return LinkedQueue.from(elements);
+      return LinkedQueue<Object>.from(List<Object>.from(elements));
     } else if (dartType == LinkedList) {
-      final list = LinkedList();
+      final list = LinkedList<Object>();
       for (var e in elements) {
         list.add(e);
       }
       return list;
     } else if (dartType == LinkedStack) {
-      final stack = LinkedStack();
+      final stack = LinkedStack<Object>();
       for (var e in elements) {
         stack.push(e);
       }
       return stack;
     } else if (dartType == Stack) {
-      final stack = Stack();
+      final stack = Stack<Object>();
       for (var e in elements) {
         stack.push(e);
       }
       return stack;
     } else if (dartType == ArrayList) {
-      return ArrayList.from(elements);
+      return ConversionAdapterUtils.getListResult(targetType, List<Object>.from(elements));
     }
-    return List.from(elements);
+
+    return ConversionAdapterUtils.getListResult(targetType, List<Object>.from(elements));
   }
 }
 

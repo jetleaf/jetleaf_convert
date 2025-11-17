@@ -27,37 +27,61 @@ import 'converters.dart';
 typedef _NullSourceConverter = Object? Function(Class? sourceType, Class targetType);
 
 /// {@template simple_conversion_service}
-/// A comprehensive type conversion service that handles conversion between different types.
+/// A configurable and extensible **conversion service** that provides a central
+/// mechanism for converting between types in JetLeaf applications.
 ///
-/// This service provides:
-/// - Registration of converters and converter factories
-/// - Type conversion with null safety
-/// - Caching for improved performance
-/// - Support for primitive type conversions
-/// - Optional type handling
+/// [SimpleConversionService] supports:
+/// - Generic type conversion with caching
+/// - Paired converters and converter factories
+/// - Null source handling
+/// - URI validation
+/// - Optional protection domains for security/validation contexts
 ///
-/// {@template conversion_service_features}
-/// ## Key Features
-/// - Converter registration and management
-/// - Type hierarchy-aware conversion
-/// - Null safety and primitive type handling
-/// - Converter caching for performance
-/// - Optional type support
-/// {@endtemplate}
+/// This service is intended to be subclassed (e.g., [DefaultConversionService])
+/// or used directly for applications that require custom conversion behavior.
 ///
-/// {@template conversion_service_usage}
-/// ## Basic Usage
+/// ### Features
+/// 1. **Converters and Converter Factories**
+///    - Add custom converters using [addConverter] or [addPairedConverter].
+///    - Support for generic and parameterized types via type inference.
+///    - Add converter factories using [addConverterFactory].
+///    - Caching of converters for repeated conversions.
 ///
+/// 2. **Null Source Handling**
+///    - Converts `null` to target types using registered [GenericNullConverter]s.
+///    - Defaults to [_DefaultNullConverter] if no custom converter exists.
+///
+/// 3. **Conversion Caching**
+///    - Converter lookup results are cached to improve performance.
+///    - Cache is invalidated whenever a new converter or factory is added.
+///
+/// 4. **URI Validation**
+///    - Maintains a list of [UriValidator] instances for validating URI inputs.
+///
+/// 5. **Type-Safety and Primitive Handling**
+///    - Automatically checks that source objects are instances of the expected type.
+///    - Prevents assigning `null` to primitive target types.
+///
+/// ### Example
 /// ```dart
-/// final conversionService = SimpleConversionService();
+/// final service = SimpleConversionService();
 ///
-/// // Register a converter
-/// conversionService.addConverter(MyConverter());
+/// // Add a custom converter
+/// service.addConverter<String, int>(MyStringToIntConverter(), sourceType: Class.forType(String), targetType: Class.forType(int));
 ///
-/// // Perform conversion
-/// final result = conversionService.convert(source, targetType);
+/// // Convert a value
+/// int result = service.convert('123', Class.forType(int))!;
+///
+/// // Convert a nullable source
+/// int? nullableResult = service.convert<int>(null, Class.forType(int)); // throws ConversionFailedException if int is primitive
 /// ```
-/// {@endtemplate}
+///
+/// ### Notes
+/// - Internal caching ensures repeated conversions are fast.
+/// - `canConvert` and `canBypassConvert` allow pre-checking conversion capabilities.
+/// - `_NoOpConverter` and `_NoMatchConverter` are used internally for cache markers
+///   and bypassing conversions when source and target types are compatible.
+///
 /// {@endtemplate}
 class SimpleConversionService implements ConfigurableConversionService {
   /// {@template no_op_converter}
@@ -415,9 +439,17 @@ class SimpleConversionService implements ConfigurableConversionService {
 /// {@endtemplate}
 @Generic(_ConverterCacheKey)
 class _ConverterCacheKey implements Comparable<_ConverterCacheKey> {
+  /// The source type of the conversion pair.
+  ///
+  /// This represents the type from which a value will be converted.
   final Class sourceType;
+
+  /// The target type of the conversion pair.
+  ///
+  /// This represents the type to which a value will be converted.
   final Class targetType;
 
+  /// {@macro converter_cache_key}
   _ConverterCacheKey(this.sourceType, this.targetType);
 
   @override
@@ -432,9 +464,7 @@ class _ConverterCacheKey implements Comparable<_ConverterCacheKey> {
   int get hashCode => sourceType.hashCode * 29 + targetType.hashCode;
 
   @override
-  String toString() {
-    return 'ConverterCacheKey [sourceType = $sourceType, targetType = $targetType]';
-  }
+  String toString() => 'ConverterCacheKey [sourceType = $sourceType, targetType = $targetType]';
 
   @override
   int compareTo(_ConverterCacheKey other) {
@@ -459,19 +489,41 @@ class _ConverterCacheKey implements Comparable<_ConverterCacheKey> {
 /// {@endtemplate}
 @Generic(_ConvertersForPair)
 class _ConvertersForPair {
+  /// A queue of paired converters, maintained in insertion order.
+  ///
+  /// New converters are added to the front of the queue so that
+  /// the most recently added converters have higher precedence
+  /// during lookup and matching.
   final LinkedQueue<PairedConverter> _converters = LinkedQueue<PairedConverter>();
 
+  /// Adds a new [PairedConverter] to the queue.
+  ///
+  /// The converter is inserted at the front to give it higher
+  /// priority when performing type conversion lookups.
   void add(PairedConverter converter) {
     _converters.addFirst(converter);
   }
 
+  /// Attempts to find a [PairedConverter] capable of converting from [sourceType] to [targetType].
+  ///
+  /// The method performs a two-stage search:
+  /// 1. **Direct match**: Returns the first converter that either is not conditional or
+  ///    whose `matches` method returns `true` for the given types.
+  /// 2. **Fallback match**: Checks for adapters (`_PairedConverterAdapter`) that can
+  ///    handle the conversion as a fallback, using `matchesFallback`.
+  ///
+  /// Returns:
+  /// - The first matching [PairedConverter] if found.
+  /// - `null` if no suitable converter exists.
   PairedConverter? getConverter<S, T>(Class<S> sourceType, Class<T> targetType) {
+    // Stage 1: direct or conditional match
     for (final converter in _converters) {
       if (converter is! PairedConditionalConverter || converter.matches(sourceType, targetType)) {
         return converter;
       }
     }
 
+    // Stage 2: fallback converters (adapter-based)
     for (final converter in _converters) {
       if (converter is _PairedConverterAdapter && converter.matchesFallback(sourceType, targetType)) {
         return converter;
@@ -482,9 +534,7 @@ class _ConvertersForPair {
   }
 
   @override
-  String toString() {
-    return _converters.join(', ');
-  }
+  String toString() => _converters.join(', ');
 }
 
 /// {@template converters}
@@ -499,9 +549,21 @@ class _ConvertersForPair {
 /// ```
 /// {@endtemplate}
 class _Converters {
+  /// Global converters that do not declare specific convertible types.
+  ///
+  /// These are usually [ConditionalConverter]s that perform dynamic type matching.
   final Set<PairedConverter> _globalConverters = <PairedConverter>{};
+
+  /// Map of specific type pairs to their registered converters.
   final Map<ConvertiblePair, _ConvertersForPair> _converters = <ConvertiblePair, _ConvertersForPair>{};
 
+  /// Registers a new [PairedConverter].
+  ///
+  /// - If [converter.getConvertibleTypes] returns `null`, the converter is treated as
+  ///   global and added to [_globalConverters].
+  /// - Otherwise, it is associated with each declared convertible type pair.
+  ///
+  /// Throws [IllegalStateException] if a non-conditional converter returns null types.
   void add(PairedConverter converter) {
     final convertibleTypes = converter.getConvertibleTypes();
     if (convertibleTypes == null) {
@@ -511,19 +573,68 @@ class _Converters {
       _globalConverters.add(converter);
     } else {
       for (final pair in convertibleTypes) {
-        _getMatchableConverters(pair).add(converter);
+        _getMatchingConverters(pair).add(converter);
       }
     }
   }
 
-  _ConvertersForPair _getMatchableConverters(ConvertiblePair pair) {
+  /// Retrieves the [_ConvertersForPair] associated with the given [pair].
+  ///
+  /// If no converters are registered yet for this [ConvertiblePair], a new
+  /// [_ConvertersForPair] instance is created, stored, and returned.
+  ///
+  /// Parameters:
+  /// - [pair]: The [ConvertiblePair] representing the source and target types
+  ///   for which converters are being requested.
+  ///
+  /// Returns:
+  /// - The [_ConvertersForPair] containing all converters registered for
+  ///   the given type pair. This may be an existing collection or a newly
+  ///   created one if none existed previously.
+  ///
+  /// ### Example
+  /// ```dart
+  /// final pair = ConvertiblePair(String.toClass(), int.toClass());
+  /// final convertersForPair = _getMatchableConverters(pair);
+  /// convertersForPair.add(StringToIntConverter());
+  /// ```
+  _ConvertersForPair _getMatchingConverters(ConvertiblePair pair) {
     return _converters.putIfAbsent(pair, () => _ConvertersForPair());
   }
 
+  /// Removes all converters registered for a specific source/target type pair.
   void remove(Class sourceType, Class targetType) {
     _converters.remove(ConvertiblePair(sourceType, targetType));
   }
 
+  /// Finds a suitable [PairedConverter] to convert from [sourceType] to [targetType].
+  ///
+  /// This method attempts to locate a converter in two steps:
+  /// 1. **Exact match**: Looks for a converter registered specifically for the
+  ///    exact `[sourceType, targetType]` pair.
+  /// 2. **Class hierarchy match**: If no exact match is found, it iterates over
+  ///    the class hierarchies of [sourceType] and [targetType], checking for
+  ///    converters registered for any ancestor or interface pair combination.
+  ///
+  /// Type parameters:
+  /// - `S`: The source type being converted from.
+  /// - `T`: The target type being converted to.
+  ///
+  /// Parameters:
+  /// - [sourceType]: The [Class] representing the source type.
+  /// - [targetType]: The [Class] representing the target type.
+  ///
+  /// Returns:
+  /// - A [PairedConverter] if a suitable converter is found (exact or via hierarchy).
+  /// - `null` if no converter is available for the given types.
+  ///
+  /// ### Example
+  /// ```dart
+  /// final converter = registry.find<String, int>(String.toClass(), int.toClass());
+  /// if (converter != null) {
+  ///   final result = converter.convert("42");
+  /// }
+  /// ```
   PairedConverter? find<S, T>(Class<S> sourceType, Class<T> targetType) {
     // First try exact match
     final pair = ConvertiblePair(sourceType, targetType);
@@ -549,6 +660,28 @@ class _Converters {
     return null;
   }
 
+  /// Retrieves a registered [PairedConverter] for the specified [sourceType] and [targetType],
+  /// checking both specific type pairs and global conditional converters.
+  ///
+  /// This method performs the following steps:
+  /// 1. **Specific converters**: Looks up [_converters] for the exact [ConvertiblePair] provided by [pair].
+  ///    - If a converter is found in the map, it is returned immediately.
+  /// 2. **Conditional converters**: Iterates through [_globalConverters], which are usually [ConditionalConverter]s
+  ///    that determine applicability at runtime via their `matches` method.
+  /// 3. **Fallback**: Returns `null` if no suitable converter is found.
+  ///
+  /// Type parameters:
+  /// - `S`: The source type being converted from.
+  /// - `T`: The target type being converted to.
+  ///
+  /// Parameters:
+  /// - [sourceType]: The class representing the source type.
+  /// - [targetType]: The class representing the target type.
+  /// - [pair]: A [ConvertiblePair] representing the source-target type pair to look up.
+  ///
+  /// Returns:
+  /// - A [PairedConverter] if a suitable converter is found (either specific or conditional).
+  /// - `null` if no converter is available.
   PairedConverter? _getRegisteredConverter<S, T>(Class<S> sourceType, Class<T> targetType, ConvertiblePair pair) {
     // Check specifically registered converters
     final convertersForPair = _converters[pair];
@@ -581,6 +714,23 @@ class _Converters {
     return buffer.toString();
   }
 
+  /// Returns a sorted list of string representations for all registered converters.
+  ///
+  /// Iterates over all [_ConvertersForPair] entries in [_converters], collects
+  /// their string representations, sorts them alphabetically, and returns the list.
+  ///
+  /// This can be useful for debugging, logging, or inspecting which converters
+  /// are currently registered in the system.
+  ///
+  /// Returns:
+  /// - A [List<String>] containing the string representations of all converters,
+  ///   sorted in ascending order.
+  ///
+  /// ### Example
+  /// ```dart
+  /// final converterDescriptions = _getConverterStrings();
+  /// converterDescriptions.forEach(print);
+  /// ```
   List<String> _getConverterStrings() {
     final converterStrings = <String>[];
     for (final convertersForPair in _converters.values) {
@@ -603,24 +753,22 @@ class _Converters {
 /// {@endtemplate}
 @Generic(_NoOpConverter)
 class _NoOpConverter extends CommonPairedConverter {
+  /// The name of this element, converter, or property.
+  ///
+  /// This is typically used for identification, logging, or
+  /// error reporting purposes in the conversion or validation context.
   final String name;
 
   _NoOpConverter(this.name);
 
   @override
-  Set<ConvertiblePair>? getConvertibleTypes() {
-    return null;
-  }
+  Set<ConvertiblePair>? getConvertibleTypes() => null;
 
   @override
-  Object? convert<T>(Object? source, Class sourceType, Class targetType) {
-    return source;
-  }
+  Object? convert<T>(Object? source, Class sourceType, Class targetType) => source;
 
   @override
-  String toString() {
-    return name;
-  }
+  String toString() => name;
 }
 
 /// {@template paired_converter_adapter}
@@ -635,10 +783,19 @@ class _NoOpConverter extends CommonPairedConverter {
 /// {@endtemplate}
 @Generic(_PairedConverterAdapter)
 class _PairedConverterAdapter extends CommonPairedConditionalConverter {
+  /// The specific converter instance responsible for converting values
+  /// from the source type to the target type.
   final Converter _converter;
+
+  /// Represents the pair of source and target types that this converter
+  /// can handle.
   final ConvertiblePair _typeInfo;
+
+  /// Special converter used when the source value is `null`.
+  /// Ensures that `null` values are safely handled without errors.
   final _NullSourceConverter _convertNullSource;
 
+  /// {@macro paired_converter_adapter}
   _PairedConverterAdapter(
     Converter converter,
     Class sourceType,
@@ -678,6 +835,24 @@ class _PairedConverterAdapter extends CommonPairedConditionalConverter {
     return _converter is! ConditionalConverter || (_converter as ConditionalConverter).matches(sourceType, targetType);
   }
 
+  /// Determines whether this converter matches the given [sourceType] and [targetType]
+  /// when considered as a fallback option.
+  ///
+  /// The method checks two conditions:
+  /// 1. The converter's target type exactly matches [targetType].
+  /// 2. If the converter is a [ConditionalConverter], its `matches` method
+  ///    must also return `true` for the [sourceType] and [targetType].
+  ///
+  /// This allows non-conditional converters to match strictly by target type,
+  /// while conditional converters may apply additional logic.
+  ///
+  /// Parameters:
+  /// - [sourceType]: The source class type to convert from.
+  /// - [targetType]: The target class type to convert to.
+  ///
+  /// Returns:
+  /// - `true` if this converter can be applied as a fallback for the given
+  ///   types; otherwise, `false`.
   bool matchesFallback(Class sourceType, Class targetType) {
     return _typeInfo.getTargetType().getType() == targetType.getType() &&
         (_converter is! ConditionalConverter ||
@@ -710,17 +885,27 @@ class _PairedConverterAdapter extends CommonPairedConditionalConverter {
 /// {@endtemplate}
 @Generic(_PairedConverterFactoryAdapter)
 class _PairedConverterFactoryAdapter extends CommonPairedConditionalConverter {
+  /// Factory responsible for creating instances of converters dynamically
+  /// for the given source and target types.
   final ConverterFactory<dynamic, dynamic> _converterFactory;
+
+  /// Represents the pair of source and target types that this converter
+  /// is capable of handling.
   final ConvertiblePair _typeInfo;
+
+  /// Security or visibility context associated with this converter.
+  /// Typically used for classloading or reflective operations in protected scopes.
   final ProtectionDomain domain;
+
+  /// Special converter used when the source value is `null`.
+  /// Ensures safe handling of `null` inputs without throwing errors.
   final _NullSourceConverter _convertNullSource;
 
+  /// {@macro paired_converter_factory_adapter}
   _PairedConverterFactoryAdapter(this._converterFactory, this._typeInfo, this.domain, this._convertNullSource);
 
   @override
-  Set<ConvertiblePair>? getConvertibleTypes() {
-    return {_typeInfo};
-  }
+  Set<ConvertiblePair>? getConvertibleTypes() => {_typeInfo};
 
   @override
   bool matches(Class sourceType, Class targetType) {
@@ -750,9 +935,7 @@ class _PairedConverterFactoryAdapter extends CommonPairedConditionalConverter {
   }
 
   @override
-  String toString() {
-    return '$_typeInfo : $_converterFactory';
-  }
+  String toString() => '$_typeInfo : $_converterFactory';
 }
 
 /// {@template default_null_converter}
@@ -766,10 +949,11 @@ class _PairedConverterFactoryAdapter extends CommonPairedConditionalConverter {
 /// ```
 /// {@endtemplate}
 class _DefaultNullConverter implements GenericNullConverter {
+  /// {@macro default_null_converter}
+  _DefaultNullConverter();
+
   @override
-  Object? convert(Class? sourceType, Class targetType) {
-    return null;
-  }
+  Object? convert(Class? sourceType, Class targetType) => null;
 
   @override
   bool matches(Class sourceType, Class targetType) => true;

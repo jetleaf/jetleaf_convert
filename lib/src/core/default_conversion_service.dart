@@ -25,34 +25,102 @@ import '../types/collection_converters.dart';
 import '../types/object_converters.dart';
 import '../types/dart_converters.dart';
 
-/// A specialization of [SimpleConversionService] configured by default
-/// with converters appropriate for most environments.
-/// 
-/// Designed for direct instantiation but also exposes the static
-/// [addDefaultConverters] utility method for ad-hoc use against any
-/// [ConverterRegistry] instance.
-/// 
-/// Example:
+/// {@template jetleaf_default_conversion_service}
+/// A fully configured, ready-to-use **conversion service** suitable for most
+/// JetLeaf environments.
+///
+/// The [DefaultConversionService] extends [SimpleConversionService] and provides
+/// a comprehensive set of built-in converters for scalar, collection, map,
+/// JetLeaf-specific, Dart standard library, object, and temporal types.
+///
+/// ### Purpose
+/// This service is intended to:
+/// - Provide a central hub for type conversion throughout JetLeaf applications.
+/// - Facilitate automatic data transformation for property binding, method
+///   argument resolution, serialization, and deserialization.
+/// - Support custom converters while providing a robust default setup.
+///
+/// ### Features
+/// - **Singleton shared instance:** via [getSharedInstance] (lazy initialization).
+/// - **Default converters:** added on instantiation via [addDefaultConverters].
+/// - **Time-aware conversions:** includes `DateTime`, `LocalDateTime`, `ZonedDateTime`,
+///   `LocalDate`, `LocalTime`, `Duration`, and epoch milliseconds support.
+/// - **Collection conversions:** handles `List`, `Set`, `Queue`, `Stack`, `LinkedList`,
+///   `ArrayList`, and base types, with nested collection support.
+/// - **Map conversions:** generic map-to-map and string-to-map conversions.
+/// - **JetLeaf domain types:** `Uuid`, `Currency`, `Locale`, byte arrays via
+///   `ByteMultiConverter`.
+/// - **Dart built-in types:** `Runes`, `Symbol`, `Uri`, `RegExp`, `Pattern`.
+/// - **Scalar conversions:** numbers, booleans, characters, enums, strings.
+///
+/// ### Lifecycle and Usage
+/// By default, each instance registers converters upon construction. For global
+/// access, use [getSharedInstance]:
+/// ```dart
+/// final shared = DefaultConversionService.getSharedInstance();
+/// final date = shared.convert<DateTime>("2025-10-27T15:00:00Z");
+/// ```
+///
+/// Alternatively, create individual instances for custom setups:
 /// ```dart
 /// final service = DefaultConversionService();
-/// final result = service.convert('123', Class.forType(int));
-/// print(result); // 123
+/// service.convert('123', Class.forType(int)); // 123
 /// ```
+///
+/// ### Extensibility
+/// - Custom converters can be added via the [ConverterRegistry] API:
+/// ```dart
+/// DefaultConversionService.addScalarConverters(myRegistry);
+/// DefaultConversionService.addTimeConverters(myRegistry);
+/// ```
+/// - Supports domain-specific and project-specific converters by extending
+///   any of the `add*Converters` static methods.
+///
+/// ### Conversion Categories
+/// - **Scalar Converters:** numbers, booleans, characters, enums, strings, symbols.
+/// - **Time Converters:** `DateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`,
+///   `ZonedDateTime`, `Duration`, epoch milliseconds.
+/// - **Collection Converters:** `List`, `Set`, `Queue`, `Stack`, `LinkedList`, `ArrayList`.
+/// - **Map Converters:** generic map transformations and string ↔ map.
+/// - **JetLeaf Converters:** `Uuid`, `Currency`, `Locale`, byte arrays.
+/// - **Dart Built-in Converters:** `Runes`, `Symbol`, `Uri`, `RegExp`, `Pattern`.
+///
+/// ### Shared Instance Considerations
+/// - The shared singleton is lazy-initialized and thread-safe.
+/// - For custom or multi-context setups, prefer constructing individual
+///   [DefaultConversionService] instances.
+///
+/// ### See Also
+/// - [SimpleConversionService]
+/// - [ConversionService]
+/// - [ConverterRegistry]
+/// - [ApplicationConversionService]
+/// - [ApplicationContext]
+/// {@endtemplate}
 class DefaultConversionService extends SimpleConversionService {
   static DefaultConversionService? _sharedInstance;
   static ZoneId defaultZone = ZoneId.systemDefault();
   
   /// Create a new [DefaultConversionService] with the set of default converters.
+  /// 
+  /// {@macro jetleaf_default_conversion_service}
   DefaultConversionService([super.protectionDomain]) {
     addDefaultConverters(this);
   }
   
-  /// Return a shared default [ConversionService] instance, lazily building it once needed.
-  /// 
-  /// **NOTE:** We highly recommend constructing individual [ConversionService] instances
-  /// for customization purposes. This accessor is only meant as a fallback for code paths
-  /// which need simple type coercion but cannot access a longer-lived [ConversionService]
-  /// instance any other way.
+  /// Returns a shared default [ConversionService] instance.
+  ///
+  /// This method lazily constructs a singleton instance when first accessed.
+  ///
+  /// **Caution:** We recommend constructing individual [ConversionService] instances
+  /// for custom use cases. This shared instance is primarily intended for fallback
+  /// scenarios where type conversion is needed but a longer-lived service is unavailable.
+  ///
+  /// Example:
+  /// ```dart
+  /// final shared = DefaultConversionService.getSharedInstance();
+  /// final date = shared.convert<DateTime>("2025-10-27T15:00:00Z");
+  /// ```
   static ConversionService getSharedInstance() {
     DefaultConversionService? cs = _sharedInstance;
     if (cs == null) {
@@ -69,7 +137,25 @@ class DefaultConversionService extends SimpleConversionService {
     return cs;
   }
   
-  /// Add converters appropriate for most environments.
+  /// Registers a comprehensive set of converters suitable for most environments.
+  ///
+  /// This method combines scalar, collection, map, JetLeaf-specific, Dart built-in,
+  /// object, and time-related converters into the given [ConverterRegistry].
+  ///
+  /// It ensures that the registry can handle:
+  /// - Primitive types (numbers, booleans, characters)
+  /// - Collection types (`List`, `Set`, `Queue`, etc.)
+  /// - Map conversions
+  /// - JetLeaf domain types (UUID, Currency, Locale, Byte arrays)
+  /// - Dart built-in types (Runes, Symbol, URI, RegExp, Pattern)
+  /// - Core object conversions (`ObjectToObjectConverter`, `FallbackObjectToStringConverter`)
+  /// - Time-related conversions (see [addTimeConverters])
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addDefaultConverters(registry);
+  /// ```
   static void addDefaultConverters(ConverterRegistry registry) {
     addScalarConverters(registry);
     addTimeConverters(registry);
@@ -84,7 +170,26 @@ class DefaultConversionService extends SimpleConversionService {
     addCollectionConverters(registry);
   }
   
-  /// Add time-related converters.
+  /// Registers converters for time-related types into the given [ConverterRegistry].
+  ///
+  /// Supports conversions between strings, temporal types, epoch milliseconds,
+  /// and cross-type conversions such as `DateTime` ↔ `LocalDateTime` or `ZonedDateTime`.
+  ///
+  /// The following are supported:
+  /// - String ↔ temporal objects (`DateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`, `ZoneId`, `Duration`)
+  /// - Temporal objects ↔ String
+  /// - DateTime ↔ LocalDateTime, LocalDate, LocalTime, ZonedDateTime
+  /// - Epoch milliseconds ↔ DateTime, ZonedDateTime, Duration
+  /// - Cross-type conversions between `LocalDate`, `LocalTime`, `LocalDateTime`, and `ZonedDateTime`
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addTimeConverters(registry);
+  /// ```
+  ///
+  /// After registration, the conversion service can automatically convert between
+  /// most common temporal representations, including support for default zones.
   static void addTimeConverters(ConverterRegistry registry) {
     // String to time object converters
     registry.addConverter(StringToDateTimeConverter());
@@ -131,7 +236,21 @@ class DefaultConversionService extends SimpleConversionService {
     registry.addConverter(ZonedDateTimeToZoneIdConverter());
   }
   
-  /// Add map-related converters.
+  /// Registers converters for `Map` types into the given [ConverterRegistry].
+  ///
+  /// This allows automatic conversion between maps and strings, as well as
+  /// generic map-to-map transformations, using the provided [ConversionService].
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addMapConverters(registry);
+  /// ```
+  ///
+  /// After this, the conversion service can handle:
+  /// - Converting `String` to `Map<K, V>`
+  /// - Converting `Map<K, V>` to `String`
+  /// - Converting between map types (`Map<K1, V1>` to `Map<K2, V2>`)
   static void addMapConverters(ConverterRegistry registry) {
     final conversionService = registry as ConversionService;
     
@@ -140,7 +259,23 @@ class DefaultConversionService extends SimpleConversionService {
     registry.addPairedConverter(MapToMapGenericConverter(conversionService));
   }
   
-  /// Add JetLeaf-specific converters.
+  /// Registers JetLeaf-specific converters into the given [ConverterRegistry].
+  ///
+  /// These converters handle domain-specific types commonly used in JetLeaf
+  /// applications, such as UUIDs, currencies, and locales. Additionally, it
+  /// includes a `ByteMultiConverter` for binary data transformations.
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addJetLeafConverters(registry);
+  /// ```
+  ///
+  /// After this, the conversion service can convert between:
+  /// - `String` ↔ `Uuid`
+  /// - `String` ↔ `Currency`
+  /// - `String` ↔ `Locale`
+  /// - Byte arrays via `ByteMultiConverter`
   static void addJetLeafConverters(ConverterRegistry registry) {
     registry.addConverter(StringToUuidConverter());
     registry.addConverter(UuidToStringConverter());
@@ -151,7 +286,25 @@ class DefaultConversionService extends SimpleConversionService {
     registry.addPairedConverter(ByteMultiConverter());
   }
   
-  /// Add other Dart built-in type converters.
+  /// Registers other Dart built-in type converters into the given [ConverterRegistry].
+  ///
+  /// These converters support Dart standard library types such as:
+  /// - `Runes` ↔ `String`
+  /// - `Symbol` ↔ `String`
+  /// - `Uri` ↔ `String`
+  /// - `RegExp` ↔ `String`
+  /// - `Pattern` ↔ `String`
+  ///
+  /// If the registry implements [ListableConverterRegistry], the `String` → `Uri`
+  /// converter is initialized with URI validators from the registry.
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addOtherDartConverters(registry);
+  /// ```
+  ///
+  /// After this, the conversion service can handle conversions for common Dart types.
   static void addOtherDartConverters(ConverterRegistry registry) {
     // Runes converters
     registry.addConverter(StringToRunesConverter());
@@ -175,7 +328,24 @@ class DefaultConversionService extends SimpleConversionService {
     registry.addConverter(PatternToStringConverter());
   }
 
-  /// Add common collection converters.
+  /// Registers common converters for collection types into the given [ConverterRegistry].
+  ///
+  /// This method adds converters that allow the framework to automatically
+  /// convert between various collection types, including:
+  /// - `List`, `Set`, `Queue`, `Stack`, `LinkedList`, `ArrayList`
+  /// - Base collection types (`ListBase`, `SetBase`)
+  /// - Generic conversion between collections and `Object`
+  ///
+  /// This ensures that the [ConversionService] can handle nested or heterogeneous
+  /// collection transformations seamlessly.
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addCollectionConverters(registry);
+  /// ```
+  ///
+  /// After this, the conversion service can convert between supported collection types.
   static void addCollectionConverters(ConverterRegistry registry) {
     final conversionService = registry as ConversionService;
 
@@ -214,6 +384,24 @@ class DefaultConversionService extends SimpleConversionService {
     registry.addPairedConverter(ListToCollectionConverter(conversionService));
   }
   
+  /// Registers common scalar converters into the given [ConverterRegistry].
+  ///
+  /// This method adds converters that allow automatic conversion between
+  /// primitive and boxed types, strings, enums, symbols, and other basic types.
+  /// It ensures that the [ConversionService] can:
+  /// - Convert numbers (`int`, `double`, `BigInt`, `BigDecimal`, etc.)
+  /// - Convert booleans and characters
+  /// - Convert strings to/from `Runes`
+  /// - Convert enums to/from strings or integers
+  /// - Convert symbols to/from strings
+  ///
+  /// Example:
+  /// ```dart
+  /// final registry = ConversionService();
+  /// ConversionServiceConfiguration.addScalarConverters(registry);
+  /// ```
+  ///
+  /// After this, the conversion service can handle common scalar type transformations.
   static void addScalarConverters(ConverterRegistry registry) {
     registry.addPairedConverter(NumberGenericConverter());
     registry.addPairedConverter(BoolGenericConverter());

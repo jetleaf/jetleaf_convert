@@ -18,6 +18,7 @@ import 'package:jetleaf_lang/lang.dart';
 
 import '../core/conversion_service.dart';
 import '../helpers/_commons.dart';
+import '../helpers/conversion_adapter_utils.dart';
 import '../helpers/conversion_utils.dart';
 import '../helpers/convertible_pair.dart';
 
@@ -94,11 +95,7 @@ class StringToMapGenericConverter extends CommonPairedConditionalConverter {
       }
     }
 
-    return switch(targetType.getType()) {
-      HashMap => HashMap<Object, Object>.from(targetMap),
-      col.HashMap => col.HashMap.from(targetMap),
-      _ => Map.from(targetMap),
-    };
+    return ConversionAdapterUtils.getMapResult(targetType, targetMap);
   }
 }
 
@@ -260,15 +257,21 @@ class MapToMapGenericConverter extends CommonPairedConditionalConverter {
       }
     });
 
-    return switch(targetType.getType()) {
-      HashMap => HashMap<Object, Object>.from(targetMap),
-      col.HashMap => col.HashMap.from(targetMap),
-      _ => Map.from(targetMap),
-    };
+    return ConversionAdapterUtils.getMapResult(targetType, targetMap);
   }
 }
 
+/// Determines whether the given [type] represents a Map-like structure.
+///
+/// This method checks if [type] corresponds to one of the common Map implementations
+/// such as [Map], [HashMap], or any Dart Map subtype. It also verifies assignability
+/// to the generic [Map] class to support custom Map implementations.
+///
+/// Returns `true` if [type] is a Map or Map subtype; otherwise, `false`.
 bool _isMapLike(Class type) {
   final t = type.getType();
-  return t == Map || t == HashMap || t == col.HashMap || type.isAssignableTo(Class<Map>(null, PackageNames.DART));
+  return t == Map ||
+         t == HashMap ||
+         t == col.HashMap ||
+         type.isAssignableTo(Class<Map>(null, PackageNames.DART));
 }

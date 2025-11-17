@@ -16,8 +16,6 @@ import 'dart:io';
 
 import 'package:jetleaf_convert/convert.dart';
 import 'package:jetleaf_lang/lang.dart';
-import 'package:jetleaf_lang/mock.dart';
-import 'package:jetleaf_lang/reflection.dart';
 
 ConfigurableConversionService getConversionService() => DefaultConversionService();
 
@@ -36,7 +34,7 @@ Future<void> setupRuntime({List<String> packagesToExclude = const [], List<Strin
       configuration: params.configuration,
       packages: params.packages
     )
-  ).scan('output', RuntimeScannerConfiguration(
+  ).scan(RuntimeScannerConfiguration(
     skipTests: true,
     packagesToExclude: [
       "test",
