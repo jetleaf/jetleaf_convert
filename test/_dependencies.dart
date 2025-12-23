@@ -20,7 +20,7 @@ import 'package:jetleaf_lang/jetleaf_lang.dart';
 ConfigurableConversionService getConversionService() => DefaultConversionService();
 
 Future<void> setupRuntime({List<String> packagesToExclude = const [], List<String> filesToLoad = const []}) async {
-  final scan = await MockRuntimeScanner(
+  await MockRuntimeScanner(
     onInfo: (msg, updated) => print('[MOCK INFO] $msg'),
     onWarning: (msg, updated) => print('[MOCK WARNING] $msg'),
     onError: (msg, updated) => print('[MOCK ERROR] $msg'),
@@ -51,5 +51,4 @@ Future<void> setupRuntime({List<String> packagesToExclude = const [], List<Strin
       ...packagesToExclude
     ]
   ), []);
-  Runtime.register(scan.getContext());
 }

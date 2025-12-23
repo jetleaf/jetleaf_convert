@@ -50,7 +50,7 @@ class StringToDateTimeConverter extends CommonConverter<String, DateTime> {
     try {
       return DateTime.parse(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<DateTime>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<DateTime>(), value: input, point: e);
     }
   }
 }
@@ -84,7 +84,7 @@ class StringToLocalDateTimeConverter extends CommonConverter<String, LocalDateTi
     try {
       return LocalDateTime.parse(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<LocalDateTime>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<LocalDateTime>(), value: input, point: e);
     }
   }
 }
@@ -118,7 +118,7 @@ class StringToLocalDateConverter extends CommonConverter<String, LocalDate> {
     try {
       return LocalDate.parse(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<LocalDate>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<LocalDate>(), value: input, point: e);
     }
   }
 }
@@ -152,7 +152,7 @@ class StringToLocalTimeConverter extends CommonConverter<String, LocalTime> {
     try {
       return LocalTime.parse(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<LocalTime>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<LocalTime>(), value: input, point: e);
     }
   }
 }
@@ -171,7 +171,7 @@ class LocalTimeToStringConverter extends CommonConverter<LocalTime, String> {
   }
 }
 
-/// Converts String to ZoneId using ZoneId.of()
+/// Converts String to ZoneId using ZoneId()
 /// 
 /// Example:
 /// ```dart
@@ -184,7 +184,7 @@ class StringToZoneIdConverter extends CommonConverter<String, ZoneId> {
     try {
       return ZoneId.of(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<ZoneId>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<ZoneId>(), value: input, point: e);
     }
   }
 }
@@ -218,7 +218,7 @@ class StringToZonedDateTimeConverter extends CommonConverter<String, ZonedDateTi
     try {
       return ZonedDateTime.parse(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<ZonedDateTime>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<ZonedDateTime>(), value: input, point: e);
     }
   }
 }
@@ -294,7 +294,7 @@ class StringToDurationConverter extends CommonConverter<String, Duration> {
         milliseconds: milliseconds,
       );
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<String>(), targetType: Class.of<Duration>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<String>(), targetType: Class<Duration>(), value: input, point: e);
     }
   }
 }
@@ -460,7 +460,7 @@ class IntToDateTimeConverter extends CommonConverter<int, DateTime> {
     try {
       return DateTime.fromMillisecondsSinceEpoch(input);
     } catch (e) {
-      throw ConversionFailedException(sourceType: Class.of<int>(), targetType: Class.of<DateTime>(), value: input, point: e);
+      throw ConversionFailedException(sourceType: Class<int>(), targetType: Class<DateTime>(), value: input, point: e);
     }
   }
 }
@@ -583,11 +583,11 @@ class LocalDateAndLocalTimeToLocalDateTimeConverter extends CommonConverter<List
   @override
   LocalDateTime convert(List<dynamic> input) {
     if (input.length != 2) {
-      throw ConversionFailedException(sourceType: Class.of<List<dynamic>>(), targetType: Class.of<LocalDateTime>(), value: input);
+      throw ConversionFailedException(sourceType: Class<List<dynamic>>(), targetType: Class<LocalDateTime>(), value: input);
     }
     
     if (input[0] is! LocalDate || input[1] is! LocalTime) {
-      throw ConversionFailedException(sourceType: Class.of<List<dynamic>>(), targetType: Class.of<LocalDateTime>(), value: input);
+      throw ConversionFailedException(sourceType: Class<List<dynamic>>(), targetType: Class<LocalDateTime>(), value: input);
     }
     
     return LocalDateTime(input[0] as LocalDate, input[1] as LocalTime);

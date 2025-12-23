@@ -164,11 +164,11 @@ class SimpleConversionService implements ConfigurableConversionService {
       final clazz = converter.getClass(null, converter.getPackageName());
 
       // We'll try to access the [Converter] class as an interface first
-      List<Class> types = clazz.getDeclaredInterface<Converter>()?.getTypeParameters() ?? [];
+      Iterable<Class> types = clazz.getInterface<Converter>()?.getTypeParameters() ?? [];
       
       // If it fails, we'll try to access it as a superclass
       if(types.isEmpty) {
-        types = clazz.getDeclaredSuperClass()?.getTypeParameters() ?? [];
+        types = clazz.getSuperClass()?.getTypeParameters() ?? [];
       }
       
       if (types.isEmpty || types.length.isLessThan(2)) {
@@ -202,11 +202,11 @@ class SimpleConversionService implements ConfigurableConversionService {
   void addConverterFactory(ConverterFactory<dynamic, dynamic> factory) {
     final clazz = factory.getClass(null, factory.getPackageName());
     // We'll try to access the [ConverterFactory] class as an interface first
-    List<Class> types = clazz.getDeclaredInterface<ConverterFactory>()?.getTypeParameters() ?? [];
+    Iterable<Class> types = clazz.getInterface<ConverterFactory>()?.getTypeParameters() ?? [];
     
     // If it fails, we'll try to access it as a superclass
     if(types.isEmpty) {
-      types = clazz.getDeclaredSuperClass()?.getTypeParameters() ?? [];
+      types = clazz.getSuperClass()?.getTypeParameters() ?? [];
     }
     
     if (types.isEmpty || types.length.isLessThan(2)) {
@@ -434,7 +434,7 @@ class SimpleConversionService implements ConfigurableConversionService {
 /// 
 /// ### 🔧 Example:
 /// ```dart
-/// final key = _ConverterCacheKey(Class.of<String>(), Class.of<int>());
+/// final key = _ConverterCacheKey(Class<String>(), Class<int>());
 /// ```
 /// {@endtemplate}
 @Generic(_ConverterCacheKey)
