@@ -38,7 +38,7 @@ void main() {
           'isActive': true,
         };
 
-        final result = service.convertTo(userMap, Class.of<User>());
+        final result = service.convertTo(userMap, Class<User>());
         
         expect(result is User, isTrue);
         expect((result as User).name, 'John Doe');
@@ -55,7 +55,7 @@ void main() {
           // isActive is missing, should default to true
         };
 
-        final result = service.convertTo(userMap, Class.of<User>());
+        final result = service.convertTo(userMap, Class<User>());
         
         expect(result is User, isTrue);
         expect((result as User).name, 'Jane Smith');
@@ -68,7 +68,7 @@ void main() {
           // missing age and email
         };
 
-        expect(() => service.convertTo(incompleteMap, Class.of<User>()),
+        expect(() => service.convertTo(incompleteMap, Class<User>()),
             throwsA(isA<ConversionFailedException>()));
       });
     });
@@ -83,7 +83,7 @@ void main() {
           'country': 'USA',
         };
 
-        final result = service.convertTo(addressMap, Class.of<Address>());
+        final result = service.convertTo(addressMap, Class<Address>());
         
         expect(result is Address, isTrue);
         expect((result as Address).street, '123 Main St');
@@ -102,7 +102,7 @@ void main() {
           // country is missing, should default to 'USA'
         };
 
-        final result = service.convertTo(addressMap, Class.of<Address>());
+        final result = service.convertTo(addressMap, Class<Address>());
 
         expect(result is Address, isTrue);
         expect((result as Address).country, 'USA');
@@ -145,7 +145,7 @@ void main() {
           },
         };
 
-        final result = service.convertTo(houseMap, Class.of<House>());
+        final result = service.convertTo(houseMap, Class<House>());
         
         expect(result is House, isTrue);
         expect((result as House).address, '789 Pine Street');
@@ -181,7 +181,7 @@ void main() {
           },
         };
 
-        final result = service.convertTo(houseMap, Class.of<House>());
+        final result = service.convertTo(houseMap, Class<House>());
         expect(result is House, isTrue);
         expect((result as House).furniture, isEmpty);
       });
@@ -220,7 +220,7 @@ void main() {
           },
         };
 
-        final result = service.convertTo(companyMap, Class.of<Company>());
+        final result = service.convertTo(companyMap, Class<Company>());
         
         expect(result is Company, isTrue);
         expect((result as Company).name, 'Tech Innovations Inc');
@@ -242,7 +242,7 @@ void main() {
           isActive: false,
         );
 
-        final result = service.convertTo(user, Class.of<Map<String, dynamic>>());
+        final result = service.convertTo(user, Class<Map<String, dynamic>>());
         
         expect(result is Map, isTrue);
         expect((result as Map)['name'], 'Test User');
@@ -268,7 +268,7 @@ void main() {
           ),
         );
 
-        final result = service.convertTo(house, Class.of<Map<String, dynamic>>());
+        final result = service.convertTo(house, Class<Map<String, dynamic>>());
         
         expect(result is Map, isTrue);
         expect((result as Map)['address'], 'Test Address');
@@ -296,7 +296,7 @@ void main() {
           },
         ];
 
-        final result = service.convertTo(userMaps, Class.of<List<User>>());
+        final result = service.convertTo(userMaps, Class<List<User>>());
         
         expect(result is List<User>, isTrue);
         expect((result as List<User>).length, 2);
@@ -311,7 +311,7 @@ void main() {
           User(name: 'User B', age: 25, email: 'b@example.com'),
         ];
 
-        final result = service.convertTo(users, Class.of<List<Map<String, dynamic>>>());
+        final result = service.convertTo(users, Class<List<Map<String, dynamic>>>());
         
         expect(result is List<Map<String, dynamic>>, isTrue);
         expect((result as  List<Map<String, dynamic>>).length, 2);
@@ -328,14 +328,14 @@ void main() {
           'email': 'invalid@example.com',
         };
 
-        expect(() => service.convertTo(invalidMap, Class.of<User>()),
+        expect(() => service.convertTo(invalidMap, Class<User>()),
             throwsA(isA<ConversionFailedException>()));
       });
 
       test('should throw exception for unsupported object type', () {
         final map = {'key': 'value'};
         
-        expect(() => service.convertTo(map, Class.of<DateTime>()),
+        expect(() => service.convertTo(map, Class<DateTime>()),
             throwsA(isA<ConversionFailedException>()));
       });
     });

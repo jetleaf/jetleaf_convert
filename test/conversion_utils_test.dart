@@ -32,36 +32,36 @@ void main() async {
   group('ConversionUtils', () {
     test('invokeConverter should wrap other exceptions in ConversionFailedException', () {
       final converter = _ThrowingConverter();
-      expect(() => ConversionUtils.invoke(converter, 'data', Class.of<String>(), Class.of<int>()),
+      expect(() => ConversionUtils.invoke(converter, 'data', Class<String>(), Class<int>()),
           throwsA(isA<ConversionFailedException>().having((e) => e.point, 'point', isA<StateError>())));
     });
 
     test('canConvertElements should return true for convertible elements', () {
-      expect(ConversionUtils.canConvert(Class.of<String>(), Class.of<int>(), service), isTrue);
-      expect(ConversionUtils.canConvert(Class.of<int>(), Class.of<num>(), service), isTrue);
+      expect(ConversionUtils.canConvert(Class<String>(), Class<int>(), service), isTrue);
+      expect(ConversionUtils.canConvert(Class<int>(), Class<num>(), service), isTrue);
     });
 
     test('canConvertElements should return false for non-convertible elements', () {
-      expect(ConversionUtils.canConvert(Class.of<int>(), Class.of<DateTime>(), service), isFalse);
+      expect(ConversionUtils.canConvert(Class<int>(), Class<DateTime>(), service), isFalse);
     });
 
     test('canConvertElements should handle null targetElementType', () {
-      expect(ConversionUtils.canConvert(Class.of<String>(), null, service), isTrue);
+      expect(ConversionUtils.canConvert(Class<String>(), null, service), isTrue);
     });
 
     test('canConvertElements should handle null sourceElementType', () {
-      expect(ConversionUtils.canConvert(null, Class.of<String>(), service), isTrue);
+      expect(ConversionUtils.canConvert(null, Class<String>(), service), isTrue);
     });
 
     test('getEnumType should return enum Class for enum type', () {
-      final enumClass = ConversionUtils.getEnumType(Class.of<TestEnum>());
+      final enumClass = ConversionUtils.getEnumType(Class<TestEnum>());
       expect(enumClass.getType(), TestEnum);
       expect(enumClass.isEnum(), isTrue);
     });
 
     test('getEnumType should throw for non-enum type', () {
-      expect(() => ConversionUtils.getEnumType(Class.of<String>()), throwsA(isA<AssertionError>()));
-      expect(() => ConversionUtils.getEnumType(Class.of<MyClass>()), throwsA(isA<AssertionError>()));
+      expect(() => ConversionUtils.getEnumType(Class<String>()), throwsA(isA<AssertionError>()));
+      expect(() => ConversionUtils.getEnumType(Class<MyClass>()), throwsA(isA<AssertionError>()));
     });
   });
 }
@@ -69,7 +69,7 @@ void main() async {
 class _ThrowingConverter extends CommonPairedConverter {
   @override
   Set<ConvertiblePair>? getConvertibleTypes() => {
-    ConvertiblePair(Class.of<String>(), Class.of<int>()),
+    ConvertiblePair(Class<String>(), Class<int>()),
   };
 
   @override

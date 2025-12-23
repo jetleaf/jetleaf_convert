@@ -43,8 +43,8 @@ abstract class ConversionUtils {
   /// final result = ConversionUtils.invokeConverter(
   ///   myConverter,
   ///   '123',
-  ///   Class.of(String),
-  ///   Class.of(int),
+  ///   Class.forType(String),
+  ///   Class.forType(int),
   /// );
   /// ```
 	static Object? invoke<T>(PairedConverter converter, Object? source, Class sourceType, Class targetType) {
@@ -73,8 +73,8 @@ abstract class ConversionUtils {
   /// ### 🔧 Example
   /// ```dart
   /// bool result = ConversionUtils.canConvertElements(
-  ///   Class.of(String),
-  ///   Class.of(int),
+  ///   Class.forType(String),
+  ///   Class.forType(int),
   ///   myConversionService,
   /// );
   /// ```

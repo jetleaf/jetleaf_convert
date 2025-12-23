@@ -61,7 +61,7 @@ class CustomGenericConverter extends CommonPairedConverter {
   @override
   Set<ConvertiblePair>? getConvertibleTypes() {
     return {
-      ConvertiblePair(Class.of<String>(), Class.of<bool>()),
+      ConvertiblePair(Class<String>(), Class<bool>()),
     };
   }
 

@@ -41,7 +41,7 @@ import '../types/dart_converters.dart';
 /// - Support custom converters while providing a robust default setup.
 ///
 /// ### Features
-/// - **Singleton shared instance:** via [getSharedInstance] (lazy initialization).
+/// - **Singleton shared instance:** via [getCommonInstance] (lazy initialization).
 /// - **Default converters:** added on instantiation via [addDefaultConverters].
 /// - **Time-aware conversions:** includes `DateTime`, `LocalDateTime`, `ZonedDateTime`,
 ///   `LocalDate`, `LocalTime`, `Duration`, and epoch milliseconds support.
@@ -55,9 +55,9 @@ import '../types/dart_converters.dart';
 ///
 /// ### Lifecycle and Usage
 /// By default, each instance registers converters upon construction. For global
-/// access, use [getSharedInstance]:
+/// access, use [getCommonInstance]:
 /// ```dart
-/// final shared = DefaultConversionService.getSharedInstance();
+/// final shared = DefaultConversionService.getCommonInstance();
 /// final date = shared.convert<DateTime>("2025-10-27T15:00:00Z");
 /// ```
 ///
@@ -118,10 +118,10 @@ class DefaultConversionService extends SimpleConversionService {
   ///
   /// Example:
   /// ```dart
-  /// final shared = DefaultConversionService.getSharedInstance();
+  /// final shared = DefaultConversionService.getCommonInstance();
   /// final date = shared.convert<DateTime>("2025-10-27T15:00:00Z");
   /// ```
-  static ConversionService getSharedInstance() {
+  static ConversionService getCommonInstance() {
     DefaultConversionService? cs = _sharedInstance;
     if (cs == null) {
       return synchronized(DefaultConversionService, () {

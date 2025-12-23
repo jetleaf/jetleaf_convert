@@ -48,12 +48,12 @@ void main() async {
 
     test('should use ConversionServiceConverter', () {
       final customService = DefaultConversionService();
-      customService.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter()); // Registers x2 converter
+      customService.addConverter(sourceType: Class<String>(), targetType: Class<int>(), CustomConverter()); // Registers x2 converter
 
       final comparator = ConvertingComparator.withConverter(
         Comparator.naturalOrder(),
         customService,
-        Class.of<int>(),
+        Class<int>(),
       );
       final list = ['1', '5', '2']; // Will be converted to [2, 10, 4]
       list.sort(comparator.compare);

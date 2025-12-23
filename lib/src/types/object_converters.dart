@@ -39,9 +39,7 @@ class ObjectToListConverter extends CommonPairedConditionalConverter {
   };
 
   @override
-  bool matches(Class sourceType, Class targetType) {
-    return !sourceType.isArray() && targetType.isArray();
-  }
+  bool matches(Class sourceType, Class targetType) => !sourceType.isArray() && targetType.isArray();
 
   @override
   Object? convert<T>(Object? source, Class sourceType, Class targetType) {
@@ -82,9 +80,7 @@ class ObjectToSetConverter extends CommonPairedConditionalConverter {
   };
 
   @override
-  bool matches(Class sourceType, Class targetType) {
-    return !sourceType.isArray() && targetType.isAssignableTo(Class<Set>());
-  }
+  bool matches(Class sourceType, Class targetType) => !sourceType.isArray() && targetType.isAssignableTo(Class<Set>());
 
   @override
   Object? convert<T>(Object? source, Class sourceType, Class targetType) {
@@ -120,9 +116,7 @@ class ListToObjectConverter extends CommonPairedConditionalConverter {
   };
 
   @override
-  bool matches(Class sourceType, Class targetType) {
-    return sourceType.isArray() && !targetType.isArray();
-  }
+  bool matches(Class sourceType, Class targetType) => sourceType.isArray() && !targetType.isArray();
 
   @override
   Object? convert<T>(Object? source, Class sourceType, Class targetType) {
@@ -172,9 +166,7 @@ class SetToObjectConverter extends CommonPairedConditionalConverter {
   };
 
   @override
-  bool matches(Class sourceType, Class targetType) {
-    return sourceType.isAssignableTo(Class<Set>()) && !targetType.isArray();
-  }
+  bool matches(Class sourceType, Class targetType) => sourceType.isAssignableTo(Class<Set>()) && !targetType.isArray();
 
   @override
   Object? convert<T>(Object? source, Class sourceType, Class targetType) {
@@ -208,14 +200,10 @@ class FallbackObjectToStringConverter extends CommonPairedConditionalConverter {
   };
 
   @override
-  bool matches(Class sourceType, Class targetType) {
-    return targetType.getType() == String;
-  }
+  bool matches(Class sourceType, Class targetType) => targetType.getType() == String;
 
   @override
-  Object? convert<T>(Object? source, Class sourceType, Class targetType) {
-    return source?.toString();
-  }
+  Object? convert<T>(Object? source, Class sourceType, Class targetType) => source?.toString();
 }
 
 /// {@template object_to_object_converter}
@@ -271,10 +259,10 @@ class ObjectToObjectConverter extends CommonPairedConditionalConverter {
       if(executable.isStatic()) {
         return ClassUtils.isAssignable(executable.getDeclaringClass(), sourceClass);
       } else {
-        return executable.getParameterTypes()[0].getType() == sourceClass.getType();
+        return executable.getParameterTypes().elementAt(0).getType() == sourceClass.getType();
       }
     } else if(executable is Constructor) {
-      return executable.getParameterTypes()[0].getType() == sourceClass.getType();
+      return executable.getParameterTypes().elementAt(0).getType() == sourceClass.getType();
     }
 
     return false;

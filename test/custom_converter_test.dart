@@ -31,56 +31,56 @@ void main() async {
   group('ConverterRegistry and Custom Converters', () {
     test('addConverter should register a custom Converter', () {
       service.addConverter(CustomConverter());
-      expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue); // Default String to int is still there
-      expect(service.convert<int>('10', Class.of<int>()), 20); // Default converter takes precedence or is chosen
+      expect(service.canConvert(Class<String>(), Class<int>()), isTrue); // Default String to int is still there
+      expect(service.convert<int>('10', Class<int>()), 20); // Default converter takes precedence or is chosen
     });
 
     test('addConverterWithClass should register a custom Converter with specific types', () {
-      service.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter());
-      expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue);
-      expect(service.convert<int>('10', Class.of<int>()), 20); // CustomConverter should now be used
+      service.addConverter(sourceType: Class<String>(), targetType: Class<int>(), CustomConverter());
+      expect(service.canConvert(Class<String>(), Class<int>()), isTrue);
+      expect(service.convert<int>('10', Class<int>()), 20); // CustomConverter should now be used
     });
 
     test('addGenericConverter should register a custom GenericConverter', () {
       service.addPairedConverter(CustomGenericConverter());
-      expect(service.canConvert(Class.of<String>(), Class.of<bool>()), isTrue);
-      expect(service.convert<bool>('yes', Class.of<bool>()), isTrue);
-      expect(service.convert<bool>('no', Class.of<bool>()), isFalse);
+      expect(service.canConvert(Class<String>(), Class<bool>()), isTrue);
+      expect(service.convert<bool>('yes', Class<bool>()), isTrue);
+      expect(service.convert<bool>('no', Class<bool>()), isFalse);
     });
 
     test('addConverterFactory should register a custom ConverterFactory', () {
       service.addConverterFactory(CustomConverterFactory());
-      expect(service.canConvert(Class.of<String>(), Class.of<int>()), isTrue);
-      expect(service.canConvert(Class.of<String>(), Class.of<double>()), isTrue);
-      expect(service.convert<int>('100', Class.of<int>()), 200);
-      expect(service.convert<double>('100.5', Class.of<double>()), 100.5);
+      expect(service.canConvert(Class<String>(), Class<int>()), isTrue);
+      expect(service.canConvert(Class<String>(), Class<double>()), isTrue);
+      expect(service.convert<int>('100', Class<int>()), 200);
+      expect(service.convert<double>('100.5', Class<double>()), 100.5);
     });
 
     test('removeConvertible should remove a registered converter', () {
-      service.addConverter(sourceType: Class.of<String>(), targetType: Class.of<int>(), CustomConverter());
-      expect(service.convert<int>('5', Class.of<int>()), 10); // Custom converter is active
+      service.addConverter(sourceType: Class<String>(), targetType: Class<int>(), CustomConverter());
+      expect(service.convert<int>('5', Class<int>()), 10); // Custom converter is active
 
-      service.remove(Class.of<String>(), Class.of<int>());
+      service.remove(Class<String>(), Class<int>());
       // After removal, it should fall back to default or no converter
-      expect(service.convert<int>('5', Class.of<int>()), 5); // Should revert to default
+      expect(service.convert<int>('5', Class<int>()), 5); // Should revert to default
     });
 
     test('convertTo should throw for no converter found', () {
-      expect(() => service.convertTo(MyClass('test', 1), Class.of<MyClass>(), Class.of<DateTime>()), throwsA(isA<ConverterNotFoundException>()));
+      expect(() => service.convertTo(MyClass('test', 1), Class<MyClass>(), Class<DateTime>()), throwsA(isA<ConverterNotFoundException>()));
     });
   });
 
   group('Fallback Converters', () {
     test('Object to Object (via constructor)', () {
       final sourceMap = {'name': 'Alice', 'age': 30};
-      final targetType = Class.of<MyClass>();
+      final targetType = Class<MyClass>();
       final result = service.convertTo(sourceMap, targetType);
       expect(result, MyClass('Alice', 30));
     });
 
     test('Object to String (using toString())', () {
       final source = MyClass('Bob', 25);
-      expect(service.convert<String>(source, Class.of<String>()), 'MyClass(name: Bob, age: 25)');
+      expect(service.convert<String>(source, Class<String>()), 'MyClass(name: Bob, age: 25)');
     });
   });
 }

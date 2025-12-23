@@ -57,7 +57,7 @@ class ConversionException extends RuntimeException {
 /// ```dart
 /// throw ConversionFailedException(
 ///   sourceType: Class.forObject(input),
-///   targetType: Class.of(String),
+///   targetType: Class.forType(String),
 ///   value: input,
 ///   cause: FormatException('Invalid number format'),
 /// );
@@ -112,8 +112,8 @@ class ConversionFailedException extends ConversionException {
 /// ### Example:
 /// ```dart
 /// throw ConverterNotFoundException(
-///   sourceType: Class.of(DateTime),
-///   targetType: Class.of(Uri),
+///   sourceType: Class.forType(DateTime),
+///   targetType: Class.forType(Uri),
 /// );
 /// ```
 ///

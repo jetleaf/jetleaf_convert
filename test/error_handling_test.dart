@@ -30,32 +30,32 @@ void main() {
 
   group('Null Handling', () {
     test('null conversions', () {
-      expect(service.convert<int?>(null, Class.of<int>()), isNull);
-      expect(service.convert<String?>(null, Class.of<String>()), isNull);
-      expect(service.convert<bool?>(null, Class.of<bool>()), isNull);
+      expect(service.convert<int?>(null, Class<int>()), isNull);
+      expect(service.convert<String?>(null, Class<String>()), isNull);
+      expect(service.convert<bool?>(null, Class<bool>()), isNull);
     });
 
     test('canConvert with null source type', () {
-      expect(service.canConvert(null, Class.of<int>()), isTrue);
-      expect(service.canConvert(null, Class.of<String>()), isTrue);
+      expect(service.canConvert(null, Class<int>()), isTrue);
+      expect(service.canConvert(null, Class<String>()), isTrue);
     });
   });
 
   group('Error Handling', () {
     test('conversion failures should throw ConversionFailedException', () {
-      expect(() => service.convert<int>('abc', Class.of<int>()), 
+      expect(() => service.convert<int>('abc', Class<int>()), 
           throwsA(isA<ConversionFailedException>()));
-      expect(() => service.convert<DateTime>('invalid-date', Class.of<DateTime>()), 
+      expect(() => service.convert<DateTime>('invalid-date', Class<DateTime>()), 
           throwsA(isA<ConversionFailedException>()));
     });
 
     test('unsupported conversions should throw ConverterNotFoundException', () {
-      expect(() => service.convertTo(MyClass('test', 1), Class.of<MyClass>(), Class.of<DateTime>()), 
+      expect(() => service.convertTo(MyClass('test', 1), Class<MyClass>(), Class<DateTime>()), 
           throwsA(isA<ConverterNotFoundException>()));
     });
 
     test('type mismatch should throw ConversionException', () {
-      expect(() => service.convertTo('123', Class.of<int>(), Class.of<String>()), 
+      expect(() => service.convertTo('123', Class<int>(), Class<String>()), 
           throwsA(isA<ConversionException>()));
     });
   });
@@ -63,7 +63,7 @@ void main() {
   group('Performance and Edge Cases', () {
     test('large collections', () {
       final largeList = List.generate(10000, (i) => i.toString());
-      final result = service.convertTo(largeList, Class.of<List<int>>());
+      final result = service.convertTo(largeList, Class<List<int>>());
       expect(result is List, isTrue);
       expect((result as List).length, 10000);
       expect(result.first, 0);
@@ -72,7 +72,7 @@ void main() {
 
     test('deeply nested collections', () {
       final nested = [['1', '2'], ['3', '4']];
-      final result = service.convertTo(nested, Class.of<List<List<int>>>());
+      final result = service.convertTo(nested, Class<List<List<int>>>());
       expect(result, [[1, 2], [3, 4]]);
     });
 
@@ -83,7 +83,7 @@ void main() {
       map1['ref'] = map2;
       
       // Should not cause infinite recursion
-      expect(() => service.convert<String>(map1, Class.of<String>()), returnsNormally);
+      expect(() => service.convert<String>(map1, Class<String>()), returnsNormally);
     });
   });
 }
