@@ -305,13 +305,35 @@ class ObjectToObjectConverter extends CommonPairedConditionalConverter {
   Object? convert<T>(Object? source, Class sourceType, Class targetType) {
     if (source == null) return null;
 
+    if (source case T target) {
+      return target;
+    }
+
+    if (ClassUtils.isProxyClass(sourceType)) {
+      if (sourceType.getSuperClass() case final superClass?) {
+        if (superClass == targetType || superClass.isInstance(targetType)) {
+          return source;
+        }
+      }
+    }
+
+    if (ClassUtils.isProxyClass(targetType)) {
+      if (targetType.getSuperClass() case final superClass?) {
+        if (superClass == sourceType || superClass.isInstance(sourceType)) {
+          return source;
+        }
+      }
+    }
+
     if(source == targetType.getType() || targetType.isInstance(source)) {
       return source;
     }
 
-    Executable? executable = getValidatedExecutable(targetType, sourceType);
+    if (source is! Map<String, dynamic>) {
+      return source;
+    }
 
-    if(executable != null) {
+    if (getValidatedExecutable(targetType, sourceType) case final executable?) {
       try {
         if(executable is Method) {
           if(!executable.isStatic()) {
