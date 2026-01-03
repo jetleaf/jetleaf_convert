@@ -6,6 +6,13 @@ This project follows a simple, human-readable changelog format inspired by
 
 ---
 
+## [1.1.4]
+
+### Changed
+- Fixed issues with `ObjectToObjectConverter`
+
+---
+
 ## [1.1.3]
 
 ### Changed
